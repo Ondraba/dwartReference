@@ -1,2 +1,10 @@
-# Lyrical-GraphQL
-Starter project from a GraphQL course on Udemy.com
+#DwarfReference
+Stack list:
+GraphQL
+ReactJS
+Apollo
+Express
+MongoDB
+Mongoose
+Ramda
+
