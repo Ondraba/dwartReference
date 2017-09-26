@@ -5,6 +5,11 @@ export default gql`
     content{
         id
         title
+        main
+        header
+        footer
+        state
+        url
     }
 }
 `;

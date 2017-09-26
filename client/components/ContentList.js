@@ -7,11 +7,16 @@ import fetchContent from '../queries/fetchContent';
 class ContentList extends Component {
   
     renderContent(){
-        return this.props.data.content.map(({id, title}) => {
+        return this.props.data.content.map(({id, title, main, header, footer, state, url}) => {
             return (
-                <li key={id} className="collection-item">
-                   {title}                 
-                </li>
+                <ul key={id} className="collection">
+                    <li className="collection-item">
+                     {title}
+                    </li>
+                     <li className="collection-item">
+                     {main}
+                    </li>
+                </ul>
             );
         })
     }
@@ -22,9 +27,7 @@ class ContentList extends Component {
         }
         return(
             <div>
-                <ul className="collection">
                     {this.renderContent()}
-                </ul>
             </div>
         )
     }

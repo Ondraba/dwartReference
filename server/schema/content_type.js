@@ -9,6 +9,11 @@ const ContentType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
+    main: { type: GraphQLString },
+    header: { type: GraphQLString },
+    footer: { type: GraphQLString },
+    state: { type: GraphQLString },
+    url: { type: GraphQLString },
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parentValue) {

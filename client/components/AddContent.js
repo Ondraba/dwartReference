@@ -8,7 +8,7 @@ class AddContent extends Component {
     constructor(props){
         super(props);
 
-        this.state = { title: ''};
+        this.state = { title: '', main: '', header: '', footer: '', state: '', url: ''};
     }
 
     onSubmit(event){
@@ -16,7 +16,12 @@ class AddContent extends Component {
         
         this.props.mutate({
             variables: {
-                title:  this.state.title ,
+                title:  this.state.title,
+                 main:  this.state.main,
+               header:  this.state.header,
+               footer:  this.state.footer,
+                state:  this.state.state,
+                  url:  this.state.url
             },
             refetchQueries: [{ fetchContent }]
             //destructuring query : query
@@ -34,6 +39,27 @@ class AddContent extends Component {
                         onChange={event => this.setState({title: event.target.value})}
                         value={this.state.title}
                     />
+                      <input 
+                        onChange={event => this.setState({main: event.target.value})}
+                        value={this.state.main}
+                    />
+                      <input 
+                        onChange={event => this.setState({header: event.target.value})}
+                        value={this.state.header}
+                    />
+                      <input 
+                        onChange={event => this.setState({footer: event.target.value})}
+                        value={this.state.footer}
+                    />
+                      <input 
+                        onChange={event => this.setState({state: event.target.value})}
+                        value={this.state.state}
+                    />
+                      <input 
+                        onChange={event => this.setState({url: event.target.value})}
+                        value={this.state.url}
+                    />
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         )
@@ -42,9 +68,9 @@ class AddContent extends Component {
 
 
 const mutation = gql`
-   mutation AddContent($title: String){
-       addContent(title: $title){
-           title
+   mutation AddContent($title: String, $main: String, $header: String, $footer: String, $state: String, $url: String){
+       addContent(title: $title, main: $main, header: $header, footer: $footer, state: $state, url: $url){
+           title, main, header, footer, state, url 
        }
    }
 `;

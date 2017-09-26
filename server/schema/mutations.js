@@ -16,10 +16,15 @@ const mutation = new GraphQLObjectType({
      addContent: {
       type: ContentType,
       args: {
-        title: { type: GraphQLString }
+        title: { type: GraphQLString },
+        main: { type: GraphQLString },
+        header: { type: GraphQLString },
+        footer: { type: GraphQLString },
+        state: { type: GraphQLString },
+        url: { type: GraphQLString }
       },
-      resolve(parentValue, { title }) {
-        return (new Content({ title })).save()
+      resolve(parentValue, { title, main, header, footer, state, url }) {
+        return (new Content({ title, main, header, footer, state, url })).save()
       }
     },
     addSong: {
