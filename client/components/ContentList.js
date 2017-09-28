@@ -4,6 +4,8 @@ import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
 import fetchContent from '../queries/fetchContent';
 
+import FelaTest from '../fela/FelaTest';
+
 class ContentList extends Component {
   
     renderContent(){
@@ -26,9 +28,11 @@ class ContentList extends Component {
             return <div>Loading...</div>;
         }
         return(
-            <div>
-                    {this.renderContent()}
-            </div>
+            <FelaTest>
+                <div>
+                        {this.renderContent()}
+                </div>
+            </FelaTest>
         )
     }
 }
