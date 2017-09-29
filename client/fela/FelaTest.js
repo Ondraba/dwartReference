@@ -5,4 +5,4 @@ const FelaTest = props => ({
   color: 'yellow'
 })
 
-export default createComponent(FelaTest);
+export default createComponent(FelaTest)

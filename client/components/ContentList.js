@@ -4,37 +4,27 @@ import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
 import fetchContent from '../queries/fetchContent';
 
-import FelaTest from '../fela/FelaTest';
 
-class ContentList extends Component {
-  
-    renderContent(){
-        return this.props.data.content.map(({id, title, main, header, footer, state, url}) => {
+const ContentList = ({contentData}) => {
+    function renderContent(){
+        return contentData.map(({id, title, main, header, footer, state, url}) => {
             return (
                 <ul key={id} className="collection">
                     <li className="collection-item">
-                     {title}
-                    </li>
-                     <li className="collection-item">
-                     {main}
+                      <Link to={`/contentDetail/${id}`}>{title}</Link>
+                      {main} | {header} | {footer} | {state} | {url}
                     </li>
                 </ul>
             );
         })
     }
 
-    render(){
-        if (this.props.data.loading){
-            return <div>Loading...</div>;
-        }
-        return(
-            <FelaTest>
-                <div>
-                        {this.renderContent()}
-                </div>
-            </FelaTest>
-        )
-    }
+   return(
+     <div>
+        {renderContent()}
+     </div>
+   )
+        
 }
 
 export default graphql(fetchContent)(ContentList);

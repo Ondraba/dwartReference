@@ -23,6 +23,13 @@ const RootQuery = new GraphQLObjectType({
         return Content.find({});
       }
     },
+     contentDetail: {
+      type: ContentType,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(parentValue, { id }) {
+        return Content.findById(id);
+      }
+    },
       comment: {
       type: CommentType,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },

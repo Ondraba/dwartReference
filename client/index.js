@@ -13,7 +13,10 @@ import SongDetail from './components/SongDetail';
 
 import ContentList from './components/ContentList';
 import AddContent from './components/AddContent';
+import ContentDetail from './components/ContentDetail';
 
+import AdminDriver from './components/AdminDriver';
+ 
 import { createRenderer } from 'fela'
 import layoutDebugger from 'fela-layout-debugger'
 
@@ -35,8 +38,10 @@ const Root = () => {
             <IndexRoute component={SongList}/>
             <Route path="content" component={ContentList} />
             <Route path="content/add" component={AddContent} />
+             <Route path="admin" component={AdminDriver} />
             <Route path="songs/new" component={SongCreate} />
-              <Route path="songs/:id" component={SongDetail} />
+            <Route path="songs/:id" component={SongDetail} />
+            <Route path="contentDetail/:id" component={ContentDetail} />
               //:id react router variable, kterou obrzi v props
           </Route>
         </Router>
@@ -45,7 +50,7 @@ const Root = () => {
   );
 };
 
-ReactDOM.render(
+ReactDOM.render( 
   <Root />,
   document.querySelector('#root')
 );
