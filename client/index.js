@@ -15,14 +15,12 @@ import ContentList from './components/ContentList';
 import AddContent from './components/AddContent';
 import ContentDetail from './components/ContentDetail';
 
+import AddComment from './components/AddComment';
+
 import AdminDriver from './components/AdminDriver';
  
-import { createRenderer } from 'fela'
-import layoutDebugger from 'fela-layout-debugger'
 
-const renderer = createRenderer({
-  enhancers: [ layoutDebugger() ]
-})
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 const client = new ApolloClient({
@@ -32,7 +30,7 @@ const client = new ApolloClient({
 const Root = () => {
   return (
     <ApolloProvider client={client}>
-      <FelaProvider renderer={renderer}>
+      <MuiThemeProvider>
         <Router history={hashHistory}>
           <Route path="/" component={App}>
             <IndexRoute component={SongList}/>
@@ -42,10 +40,11 @@ const Root = () => {
             <Route path="songs/new" component={SongCreate} />
             <Route path="songs/:id" component={SongDetail} />
             <Route path="contentDetail/:id" component={ContentDetail} />
+            <Route path="AddComment" component={AddComment} />
               //:id react router variable, kterou obrzi v props
           </Route>
         </Router>
-      </FelaProvider>
+      </MuiThemeProvider>
     </ApolloProvider>
   );
 };

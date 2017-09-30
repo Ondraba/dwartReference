@@ -4,6 +4,12 @@ import { graphql } from 'react-apollo';
 import { Link, hashHistory } from 'react-router';
 import fetchContent from '../queries/fetchContent';
 
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+
+
+
 class AddContent extends Component {
     constructor(props){
         super(props);
@@ -30,41 +36,72 @@ class AddContent extends Component {
 
     render(){
         return(
-            <div>
-                <Link to="/">Back</Link>
+         <Paper style={ style.paperStyle } zDepth={1} >
+            <div style={style.wrapper}>
+                <Link to="/Admin" style={style.linkStyle}>
+                 <RaisedButton label="Back" primary={true} type="submit"/>
+                </Link>
                 <h3>Create a Content</h3>
                 <form onSubmit={this.onSubmit.bind(this)}>
-                    <label>Title:</label>
-                    <input 
+                    <TextField
+                        hintText="Title"
                         onChange={event => this.setState({title: event.target.value})}
                         value={this.state.title}
                     />
-                      <input 
+                      <br />
+                      <TextField 
+                        hintText="Main"
+                        fullWidth={true}
                         onChange={event => this.setState({main: event.target.value})}
                         value={this.state.main}
                     />
-                      <input 
+                      <br />
+                      <TextField 
+                        hintText="Header"
                         onChange={event => this.setState({header: event.target.value})}
                         value={this.state.header}
                     />
-                      <input 
+                      <br />
+                      <TextField
+                        hintText="Footer"
                         onChange={event => this.setState({footer: event.target.value})}
                         value={this.state.footer}
                     />
-                      <input 
+                      <br />
+                      <TextField 
+                        hintText="State"
                         onChange={event => this.setState({state: event.target.value})}
                         value={this.state.state}
                     />
-                      <input 
+                       <br />
+                      <TextField 
+                        hintText="URL"
                         onChange={event => this.setState({url: event.target.value})}
                         value={this.state.url}
                     />
-                    <button type="submit">Submit</button>
+                       <br />
+                   <RaisedButton label="Create" secondary={true} type="submit"/>
+                    
                 </form>
             </div>
+         </Paper>
         )
     }
 }
+
+
+const style = {
+  wrapper: {
+    width: 800,
+    margin: 20,
+  },
+    paperStyle: {
+    height: 500,
+    width: 900,
+    margin: 20,
+    paddingTop: 20
+  },
+};
 
 
 const mutation = gql`
