@@ -12,3 +12,5 @@ const CommentSchema = new Schema({
 });
 
 mongoose.model('comment', CommentSchema);
+
+

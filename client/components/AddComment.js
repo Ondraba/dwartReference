@@ -8,21 +8,43 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
 
-const AddComment = () => {
-        const commentVariables = {
-            body: '',
-            by: ''
+
+const AddComment = (props) => {
+        let byInput 
+        let bodyInput 
+
+        function handleSubmit(){
+            const commentVariables = {
+            by: byInput,
+            body: bodyInput
+            }
+
+            console.log(commentVariables.by);
+
+            props.mutate({
+            variables: {
+                by: commentVariables.by,
+                body: commentVariables.body,
+                contentId: props.contentId
+                //from higher component
+            }
+            });
         }
         
         return(
             <Paper style={ style.paperStyle} zDepth={1} >
                 <div style={style.wrapperStyle}>
                     <h3>Add comment:</h3>
-                    <TextField  hintText="Your nickname" />
+                    <TextField  hintText="Your nickname"   onChange={event =>{
+                        byInput = event.target.value
+                        }
+                    } />
                     <br />
-                    <TextField  hintText="Add comment"  fullWidth={true}  />
+                    <TextField  hintText="Add comment"  fullWidth={true}  onChange={event => 
+                        { bodyInput = event.target.value}
+                    } />
                     <br />
-                    <RaisedButton label="Komentovat" secondary={true} />
+                    <RaisedButton label="Komentovat" secondary={true} onClick={handleSubmit.bind(this)}/> 
                 </div>
             </Paper>
         )
@@ -41,4 +63,18 @@ const style = {
   }
 };
 
-export default AddComment;
+const mutation = gql`
+    mutation AddComment($by: String, $body: String, $contentId: ID){
+        addComment(by: $by, body: $body, contentId: $contentId){
+            id 
+            comments{
+                id
+                by
+                body
+                likes
+            }
+        }
+    }
+`;
+
+export default graphql(mutation)(AddComment);

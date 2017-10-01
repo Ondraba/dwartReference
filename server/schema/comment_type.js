@@ -14,14 +14,15 @@ const CommentType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     likes: { type: GraphQLInt },
-    content: { type: GraphQLString },
-    song: {
-      type: require('./song_type'),
+    by: { type: GraphQLString },
+    body: { type: GraphQLString },
+    content: {
+      type: require('./content_type'),
       resolve(parentValue) {
-        return Lyric.findById(parentValue).populate('song')
-          .then(lyric => {
-            console.log(lyric)
-            return lyric.song
+        return Comment.findById(parentValue).populate('content')
+          .then(comment => {
+            console.log(comment)
+            return comment.content
           });
       }
     }
@@ -29,3 +30,4 @@ const CommentType = new GraphQLObjectType({
 });
 
 module.exports = CommentType;
+

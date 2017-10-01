@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
+const Content = mongoose.model('content');
+const Comment = mongoose.model('comment');
+
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
+
+
 const SongType = require('./song_type');
 const LyricType = require('./lyric_type');
 const Lyric = mongoose.model('lyric');
@@ -8,9 +13,6 @@ const Song = mongoose.model('song');
 
 const ContentType = require('./content_type');
 const CommentType = require('./comment_type');
-
-const Content = mongoose.model('content');
-const Comment = mongoose.model('comment');
 
 
 

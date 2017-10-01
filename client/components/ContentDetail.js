@@ -7,11 +7,12 @@ import fetchContentDetail from '../queries/fetchContentDetail';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
+import ThumbUp from 'material-ui-icons/ThumbUp';
 
 
 
 import AddComment from './AddComment';
+import CommentList from './CommentList';
 
 
 const ContentDetail = (props) => {
@@ -37,12 +38,14 @@ const ContentDetail = (props) => {
                 <p> {_contentDetail.ur}</p> 
             </div>
             <div style={style.underScore}>
-                <IconButton touch={true} >
-                    <ActionGrade />
+                <span style={style.likeLabel}>0</span>
+                <IconButton touch={true} style={style.likeButton} >
+                    <ThumbUp />
                 </IconButton>
             </div>
         </Paper>
-        <AddComment />
+        <CommentList commentsObj={_contentDetail.comments}/>
+        <AddComment contentId={_contentDetail.id}/>
      </div>
    )
         
@@ -68,6 +71,12 @@ const style = {
       marginTop: 200,
       width: 780,
       textAlign: 'right'
+  },
+  likeLabel: {
+     
+  },
+  likeButton: {
+    top: 3.5
   },
 };
 

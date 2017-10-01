@@ -41,6 +41,7 @@
     "html-webpack-plugin": "^2.26.0",
     "lodash": "^4.17.4",
     "material-ui": "^0.19.2",
+    "material-ui-icons": "^1.0.0-beta.10",
     "mongoose": "^4.7.8",
     "nodemon": "*",
     "passport": "^0.3.2",

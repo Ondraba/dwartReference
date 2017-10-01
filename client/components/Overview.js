@@ -28,7 +28,7 @@ const Overview = ({contentData}) => {
     return(
      <Paper style={ style.paperStyle} zDepth={1} >
         <div style= {style.wrapperStyle}>
-        Items in database: {contentCount()} 
+        Items in database: {contentCount()} | Last update: 00:00 | Activity overview: 0
         </div>
      </Paper>
     )

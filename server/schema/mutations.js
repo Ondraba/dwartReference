@@ -1,11 +1,15 @@
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
 const mongoose = require('mongoose');
+
 const Song = mongoose.model('song');
+
 const Content= mongoose.model('content');
 const Comment= mongoose.model('comment');
+
 const Lyric = mongoose.model('lyric');
 const SongType = require('./song_type');
+
 const ContentType = require('./content_type');
 const CommentType = require('./comment_type');
 const LyricType = require('./lyric_type');
@@ -25,6 +29,17 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { title, main, header, footer, state, url }) {
         return (new Content({ title, main, header, footer, state, url })).save()
+      }
+    },
+    addComment: {
+      type: ContentType,
+      args: {
+        by: { type: GraphQLString },
+        body: { type: GraphQLString },
+        contentId: { type: GraphQLID }
+      },
+      resolve(parentValue, { by, body, contentId }) {
+        return Content.addComment(contentId, by, body);
       }
     },
     addSong: {

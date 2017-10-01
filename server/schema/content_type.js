@@ -24,3 +24,5 @@ const ContentType = new GraphQLObjectType({
 });
 
 module.exports = ContentType;
+
+

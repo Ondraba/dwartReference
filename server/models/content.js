@@ -10,11 +10,11 @@ const ContentSchema = new Schema({
   url: { type: String },
   groups: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'groups'
   },
   access: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'acess'
   },
   comments: [{
     type: Schema.Types.ObjectId,
@@ -23,6 +23,18 @@ const ContentSchema = new Schema({
   likes: { type: Number, default: 0 }
 });
 
+
+ContentSchema.statics.addComment= function(id, by, body) {
+  const Comment = mongoose.model('comment');
+  return this.findById(id)
+    .then(content => {
+      const comment = new Comment({ by, body, content })
+      content.comments.push(comment)
+      return Promise.all([comment.save(), content.save()])
+        .then(([comment, content]) => content);
+    });
+}
+
 ContentSchema.statics.findComments = function(id) {
   return this.findById(id)
     .populate('comments')
@@ -30,3 +42,5 @@ ContentSchema.statics.findComments = function(id) {
 }
 
 mongoose.model('content', ContentSchema);
+
+
