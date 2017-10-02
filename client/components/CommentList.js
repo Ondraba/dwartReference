@@ -15,18 +15,39 @@ import Delete from 'material-ui-icons/Delete';
 
 
 
-const CommentList = ({commentsObj}) => {
+const CommentList = (props) => {
+
+    function addLikeToComment(id, likes){
+        props.mutate({
+            variables: { id },
+             optimisticResponse: {
+                __typename: 'Mutation',
+                likeComment: {
+                    id: id,
+                    __typename: 'CommentType',
+                    likes: likes++
+                    //==response of network in data lyric miror
+                }
+            }
+        })
+    }
+
     function renderComments(){
-        return commentsObj.map(({id, by, body}) => {
+        return props.commentsObj.map(({id, by, body, likes}) => {
             return (
               <div key={id}>
                 <TextField disabled={true} id="text-field-disabled" defaultValue={by}/>
                 <br />
                 <TextField disabled={true} id="text-field-disabled" defaultValue={body} fullWidth={true}/>
                 <br />
-                <IconButton touch={true} style={style.thumbup}>
-                    <ThumbUp />
-                </IconButton>
+                <div>
+                  <IconButton touch={true} style={style.thumbup} onClick = {
+                    () => addLikeToComment(id, likes)
+                    } >
+                      <ThumbUp />
+                  </IconButton> 
+                  <span style={style.thumbupText}>{likes}</span>
+                </div>
               </div>
             );
         })
@@ -51,8 +72,21 @@ const style = {
     paddingRight: 20
   },
   thumbup:{
-      marginLeft: '95%'
+      marginLeft: '90%'
   },
+  thumbupText: {
+    fontWeight: 'bold',
+    paddingTop: 20
+  }
 };
 
-export default CommentList;
+const mutation = gql`
+    mutation LikeComment($id: ID){
+        likeComment(id: $id){
+            id
+            likes
+        }
+    }
+`;
+
+export default graphql(mutation)(CommentList);

@@ -42,6 +42,13 @@ const mutation = new GraphQLObjectType({
         return Content.addComment(contentId, by, body);
       }
     },
+    likeComment: {
+      type: CommentType,
+      args: { id: { type: GraphQLID} },
+        resolve(parentValue, { id }){
+          return Comment.addLike(id);
+        }
+    },
     addSong: {
       type: SongType,
       args: {
