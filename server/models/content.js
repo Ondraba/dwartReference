@@ -41,6 +41,17 @@ ContentSchema.statics.findComments = function(id) {
     .then(content => content.comments);
 }
 
+ContentSchema.statics.countComments = function(){
+    return 10;
+}
+
+ContentSchema.statics.addLike = function(id){
+  const Content = mongoose.model('content');
+  return Content.findById(id)
+    .then(content => {
+      ++content.likes;
+      return content.save();
+    })
+}
+
 mongoose.model('content', ContentSchema);
-
-

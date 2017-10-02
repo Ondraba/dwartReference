@@ -9,7 +9,8 @@ export default gql`
             header
             footer
             state
-            url    
+            url 
+            likes   
             comments {
                 id
                 by

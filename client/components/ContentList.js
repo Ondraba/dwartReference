@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { Link } from 'react-router';
 import fetchContent from '../queries/fetchContent';
 
@@ -22,18 +22,35 @@ import Delete from 'material-ui-icons/Delete';
 
 
 
-const ContentList = ({contentData}) => {
+const ContentList = (props) => {
+
+     function likeContentById(id, likes){
+       props.mutate({
+             variables: { id },
+             optimisticResponse: {
+                __typename: 'Mutation',
+                likeContent: {
+                    id: id,
+                    __typename: 'ContentType',
+                    likes: likes++
+                }
+            }
+       })
+   }
+
     function renderContent(){
-        return contentData.map(({id, title, main, header, footer, state, url}) => {
+        return props.contentData.map(({id, title, main, header, footer, state, url, likes, likesCount}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
                     <TableRowColumn>{state}</TableRowColumn>
                     <TableRowColumn>{url}</TableRowColumn>
-                    <TableRowColumn>0</TableRowColumn>
-                    <TableRowColumn>0</TableRowColumn>
+                    <TableRowColumn>{likes}</TableRowColumn>
+                    <TableRowColumn>{likesCount}</TableRowColumn>
                     <TableRowColumn>
-                     <IconButton touch={true} >
+                     <IconButton touch={true} onClick = {
+                         () => likeContentById(id, likes)
+                     }>
                          <ThumbUp />
                      </IconButton>
                      <IconButton touch={true} >
@@ -98,4 +115,19 @@ const style = {
   },
 };
 
-export default graphql(fetchContent)(ContentList);
+
+const mutation = gql`
+    mutation LikeContent($id: ID){
+        likeContent(id: $id){
+            id
+            likes
+        }
+    }
+`;
+
+
+export default compose(
+    graphql(fetchContent),
+    graphql(mutation),
+)(ContentList)
+

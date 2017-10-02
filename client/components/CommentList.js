@@ -26,7 +26,6 @@ const CommentList = (props) => {
                     id: id,
                     __typename: 'CommentType',
                     likes: likes++
-                    //==response of network in data lyric miror
                 }
             }
         })
@@ -36,6 +35,9 @@ const CommentList = (props) => {
         return props.commentsObj.map(({id, by, body, likes}) => {
             return (
               <div key={id}>
+                <IconButton touch={true} style={style.delete}>
+                 <Delete />
+                </IconButton>
                 <TextField disabled={true} id="text-field-disabled" defaultValue={by}/>
                 <br />
                 <TextField disabled={true} id="text-field-disabled" defaultValue={body} fullWidth={true}/>
@@ -77,6 +79,10 @@ const style = {
   thumbupText: {
     fontWeight: 'bold',
     paddingTop: 20
+  },
+  delete: {
+     marginLeft: '95%',
+     top: 60
   }
 };
 

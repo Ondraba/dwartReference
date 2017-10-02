@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { Link } from 'react-router';
 import fetchContentDetail from '../queries/fetchContentDetail';
 
@@ -17,6 +17,20 @@ import CommentList from './CommentList';
 
 const ContentDetail = (props) => {
    const  _contentDetail  = props.data.contentDetail;
+
+   function likeContentById(id, likes){
+       props.mutate({
+             variables: { id },
+             optimisticResponse: {
+                __typename: 'Mutation',
+                likeContent: {
+                    id: id,
+                    __typename: 'ContentType',
+                    likes: likes++
+                }
+            }
+       })
+   }
 
     if (!_contentDetail){
             return <div>Loading...</div>;
@@ -38,8 +52,10 @@ const ContentDetail = (props) => {
                 <p> {_contentDetail.ur}</p> 
             </div>
             <div style={style.underScore}>
-                <span style={style.likeLabel}>0</span>
-                <IconButton touch={true} style={style.likeButton} >
+                <span style={style.likeLabel}>{_contentDetail.likes}</span>
+                <IconButton touch={true} style={style.likeButton} onClick = {
+                    () => likeContentById(_contentDetail.id, _contentDetail.likes)
+                }>
                     <ThumbUp />
                 </IconButton>
             </div>
@@ -73,7 +89,7 @@ const style = {
       textAlign: 'right'
   },
   likeLabel: {
-     
+     fontWeight: 'bold'
   },
   likeButton: {
     top: 3.5
@@ -81,12 +97,25 @@ const style = {
 };
 
 
-export default graphql(fetchContentDetail, {
-    options: (props) => { 
-        return { 
-            variables: {id: props.params.id}
+const mutation = gql`
+    mutation LikeContent($id: ID){
+        likeContent(id: $id){
+            id
+            likes
         }
     }
-})(ContentDetail);
+`;
 
+
+
+export default compose(
+    graphql(fetchContentDetail,{
+        options: (props) => {
+            return {
+                variables: {id: props.params.id}
+            }
+        }
+    }),
+    graphql(mutation),
+)(ContentDetail)
 
