@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { Link } from 'react-router';
 
 
@@ -13,13 +13,14 @@ import IconButton from 'material-ui/IconButton';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import Delete from 'material-ui-icons/Delete';
 
-
+import fetchContentDetail from '../queries/fetchContentDetail';
 
 const CommentList = (props) => {
 
     function addLikeToComment(id, likes){
         props.mutate({
             variables: { id },
+             mutation: _m_likeComment,
              optimisticResponse: {
                 __typename: 'Mutation',
                 likeComment: {
@@ -31,11 +32,21 @@ const CommentList = (props) => {
         })
     }
 
+    function deleteComment(id){
+        props.mutate({
+            mutation: _m_deleteComment,
+            variables: { id },
+            refetchQueries: [{ fetchContentDetail }]
+        })
+    }
+
     function renderComments(){
         return props.commentsObj.map(({id, by, body, likes}) => {
             return (
               <div key={id}>
-                <IconButton touch={true} style={style.delete}>
+                <IconButton touch={true} style={style.delete} onClick={
+                    () => deleteComment(id)
+                }>
                  <Delete />
                 </IconButton>
                 <TextField disabled={true} id="text-field-disabled" defaultValue={by}/>
@@ -86,7 +97,7 @@ const style = {
   }
 };
 
-const mutation = gql`
+const _m_likeComment = gql`
     mutation LikeComment($id: ID){
         likeComment(id: $id){
             id
@@ -95,4 +106,15 @@ const mutation = gql`
     }
 `;
 
-export default graphql(mutation)(CommentList);
+const _m_deleteComment = gql`
+    mutation DeleteComment($id: ID){
+        deleteComment(id: $id){
+            id
+        }
+    }
+`;
+
+export default compose(
+    graphql(_m_likeComment),
+    graphql(_m_deleteComment),
+)(CommentList)
