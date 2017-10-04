@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 
 
 import Paper from 'material-ui/Paper';
@@ -17,12 +17,14 @@ import fetchContentDetail from '../queries/fetchContentDetail';
 
 const CommentList = (props) => {
 
+    console.log(props);
+
     function addLikeToComment(id, likes){
-        props.mutate({
+        props.LikeComment({
             variables: { id },
-             mutation: _m_likeComment,
+             mutation: 'LikeComment',
              optimisticResponse: {
-                __typename: 'Mutation',
+                __typename: 'likeComment',
                 likeComment: {
                     id: id,
                     __typename: 'CommentType',
@@ -33,8 +35,8 @@ const CommentList = (props) => {
     }
 
     function deleteComment(id){
-        props.mutate({
-            mutation: _m_deleteComment,
+        props.DeleteComment({
+            mutation: 'DeleteComment',
             variables: { id },
             refetchQueries: [{ fetchContentDetail }]
         })
@@ -97,7 +99,7 @@ const style = {
   }
 };
 
-const _m_likeComment = gql`
+const mutationLikeComment = gql`
     mutation LikeComment($id: ID){
         likeComment(id: $id){
             id
@@ -106,7 +108,7 @@ const _m_likeComment = gql`
     }
 `;
 
-const _m_deleteComment = gql`
+const  mutationDeleteComment = gql`
     mutation DeleteComment($id: ID){
         deleteComment(id: $id){
             id
@@ -114,7 +116,14 @@ const _m_deleteComment = gql`
     }
 `;
 
-export default compose(
-    graphql(_m_likeComment),
-    graphql(_m_deleteComment),
+const CommentListWithMutations = compose(
+  graphql(mutationLikeComment, { 
+      name: 'LikeComment' 
+    }),
+  graphql(mutationDeleteComment, {
+       name: 'DeleteComment' 
+    })
 )(CommentList)
+
+export default CommentListWithMutations
+
