@@ -60,7 +60,7 @@ const ContentDetail = (props) => {
                 </IconButton>
             </div>
         </Paper>
-        <CommentList commentsObj={_contentDetail.comments}/>
+        <CommentList commentsObj={_contentDetail.comments} detailId = {_contentDetail.id}/>
         <AddComment contentId={_contentDetail.id}/>
      </div>
    )

@@ -17,7 +17,7 @@ import fetchContentDetail from '../queries/fetchContentDetail';
 
 const CommentList = (props) => {
 
-    console.log(props);
+    console.log(props.detailId);
 
     function addLikeToComment(id, likes){
         props.LikeComment({
@@ -38,9 +38,13 @@ const CommentList = (props) => {
         props.DeleteComment({
             mutation: 'DeleteComment',
             variables: { id },
-            refetchQueries: [{ fetchContentDetail }]
+            refetchQueries: [{ 
+                query: fetchContentDetail,
+                variables: { id : props.detailId }
+             }]
         })
     }
+
 
     function renderComments(){
         return props.commentsObj.map(({id, by, body, likes}) => {
