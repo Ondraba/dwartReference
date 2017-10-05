@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { Link } from 'react-router';
-import fetchContent from '../queries/fetchContent';
 
 import Paper from 'material-ui/Paper';
 import {
@@ -19,13 +18,14 @@ import IconButton from 'material-ui/IconButton';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 import Delete from 'material-ui-icons/Delete';
+import Edit from 'material-ui-icons/Edit';
 
-
+import fetchContent from '../queries/fetchContent';
 
 const ContentList = (props) => {
 
      function likeContentById(id, likes){
-       props.mutate({
+       props.LikeContent({
              variables: { id },
              optimisticResponse: {
                 __typename: 'Mutation',
@@ -38,24 +38,42 @@ const ContentList = (props) => {
        })
    }
 
+   function deleteContentById(id){
+       props.DeleteContent({
+           variables: {id},
+            refetchQueries: [{ 
+                query: fetchContent
+             }]
+       })
+   }
+
     function renderContent(){
-        return props.contentData.map(({id, title, main, header, footer, state, url, likes, likesCount}) => {
+        return props.contentData.map(({id, title, main, header, footer, state, url, likes}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
                     <TableRowColumn>{state}</TableRowColumn>
                     <TableRowColumn>{url}</TableRowColumn>
                     <TableRowColumn>{likes}</TableRowColumn>
-                    <TableRowColumn>{likesCount}</TableRowColumn>
+                    <TableRowColumn>0</TableRowColumn>
                     <TableRowColumn>
-                     <IconButton touch={true} onClick = {
-                         () => likeContentById(id, likes)
-                     }>
-                         <ThumbUp />
-                     </IconButton>
-                     <IconButton touch={true} >
-                        <Delete />
-                     </IconButton>
+                        <IconButton touch={true} onClick = {
+                            () => likeContentById(id, likes)
+                        }>
+                            <ThumbUp />
+                        </IconButton>
+                     </TableRowColumn>
+                     <TableRowColumn>
+                        <IconButton touch={true} onClick ={
+                            () => deleteContentById(id)
+                        }>
+                            <Delete />
+                        </IconButton>
+                     </TableRowColumn>
+                     <TableRowColumn>
+                        <IconButton touch={true}>
+                            <Edit />
+                        </IconButton>
                     </TableRowColumn>
                 </TableRow>
             );
@@ -80,6 +98,8 @@ const ContentList = (props) => {
                     <TableHeaderColumn>Likes</TableHeaderColumn>
                     <TableHeaderColumn>Comments</TableHeaderColumn>
                     <TableHeaderColumn> </TableHeaderColumn>
+                    <TableHeaderColumn> </TableHeaderColumn>
+                    <TableHeaderColumn> </TableHeaderColumn>
                 </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox= {false}>
@@ -96,7 +116,7 @@ const ContentList = (props) => {
 const style = {
   paperStyle: {
     height: 400,
-    width: 800,
+    width: 900,
     margin: 20,
     paddingTop: 20
   },
@@ -116,7 +136,7 @@ const style = {
 };
 
 
-const mutation = gql`
+const mutationLikeContent = gql`
     mutation LikeContent($id: ID){
         likeContent(id: $id){
             id
@@ -126,8 +146,23 @@ const mutation = gql`
 `;
 
 
-export default compose(
-    graphql(fetchContent),
-    graphql(mutation),
+const mutationDeleteContent = gql`
+    mutation DeleteContent($id: ID){
+        deleteContent(id: $id){
+            id
+        }
+    }
+`;
+
+
+const ContentListWithMutations = compose(
+  graphql(mutationLikeContent, { 
+      name: 'LikeContent' 
+    }),
+  graphql(mutationDeleteContent, {
+       name: 'DeleteContent' 
+    })
 )(ContentList)
+
+export default ContentListWithMutations
 

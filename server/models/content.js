@@ -35,6 +35,22 @@ ContentSchema.statics.addComment= function(id, by, body) {
     });
 }
 
+
+ContentSchema.statics.updateContent = function(id, title, main, header, footer, state, url){
+  const Content = mongoose.model('content');
+  return Content.findById(id)
+    .then(content => {
+      content.title = title;
+      content.main = main;
+      content.header = header;
+      content.footer = footer;
+      content.state = state;
+      content.url = url;
+      return content.save(content);
+    })
+}
+
+
 ContentSchema.statics.findComments = function(id) {
   return this.findById(id)
     .populate('comments')

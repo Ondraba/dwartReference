@@ -10,7 +10,7 @@ import Paper from 'material-ui/Paper';
 
 
 
-class AddContent extends Component {
+class UpdateContent extends Component {
     constructor(props){
         super(props);
 
@@ -19,7 +19,6 @@ class AddContent extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        
         this.props.mutate({
             variables: {
                 title:  this.state.title,
@@ -107,11 +106,11 @@ const style = {
 
 
 const mutation = gql`
-   mutation AddContent($title: String, $main: String, $header: String, $footer: String, $state: String, $url: String){
-       addContent(title: $title, main: $main, header: $header, footer: $footer, state: $state, url: $url){
+   mutation UpdateContent($title: String, $main: String, $header: String, $footer: String, $state: String, $url: String){
+       updateContent(title: $title, main: $main, header: $header, footer: $footer, state: $state, url: $url){
            title, main, header, footer, state, url 
        }
    }
 `;
 
-export default graphql(mutation)(AddContent);
+export default graphql(mutation)(UpdateContent);

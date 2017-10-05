@@ -40,7 +40,7 @@ const style = {
     paddingLeft: 20
   },
   paperStyle:{
-    width: 800,
+    width: 900,
     height: 50,
     marginLeft: 20,
     paddingTop: 15

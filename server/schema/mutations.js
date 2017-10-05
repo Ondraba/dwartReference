@@ -31,6 +31,21 @@ const mutation = new GraphQLObjectType({
         return (new Content({ title, main, header, footer, state, url })).save()
       }
     },
+     updateContent: {
+      type: ContentType,
+      args: {
+        id: { type: GraphQLID },
+        title: { type: GraphQLString },
+        main: { type: GraphQLString },
+        header: { type: GraphQLString },
+        footer: { type: GraphQLString },
+        state: { type: GraphQLString },
+        url: { type: GraphQLString }
+      },
+      resolve(parentValue, { id, title, main, header, footer, state, url }) {
+        return Content.updateContent(id, title, main, header, footer, state, url);
+      }
+    },
     addComment: {
       type: ContentType,
       args: {
