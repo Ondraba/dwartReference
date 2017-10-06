@@ -71,9 +71,11 @@ const ContentList = (props) => {
                         </IconButton>
                      </TableRowColumn>
                      <TableRowColumn>
-                        <IconButton touch={true}>
-                            <Edit />
-                        </IconButton>
+                        <Link to={`/updateContent/${id}`}>
+                            <IconButton touch={true}>
+                                <Edit />
+                            </IconButton>
+                        </Link>
                     </TableRowColumn>
                 </TableRow>
             );

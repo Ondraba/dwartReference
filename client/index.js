@@ -13,6 +13,7 @@ import SongDetail from './components/SongDetail';
 
 import ContentList from './components/ContentList';
 import AddContent from './components/AddContent';
+import UpdateContent from './components/UpdateContent';
 import ContentDetail from './components/ContentDetail';
 
 import AddComment from './components/AddComment';
@@ -41,7 +42,7 @@ const Root = () => {
             <Route path="songs/:id" component={SongDetail} />
             <Route path="contentDetail/:id" component={ContentDetail} />
             <Route path="AddComment" component={AddComment} />
-              //:id react router variable, kterou obrzi v props
+            <Route path="updateContent/:id" component={UpdateContent} />
           </Route>
         </Router>
       </MuiThemeProvider>
