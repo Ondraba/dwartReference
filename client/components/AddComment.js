@@ -26,8 +26,7 @@ const AddComment = (props) => {
                 by: commentVariables.by,
                 body: commentVariables.body,
                 contentId: props.contentId
-                //from higher component
-            }
+                }
             });
         }
         

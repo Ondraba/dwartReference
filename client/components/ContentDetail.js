@@ -74,7 +74,6 @@ const style = {
     paddingTop: 20
   },
   paperStyle: {
-    height: 500,
     width: 800,
     margin: 20,
     paddingTop: 20,
@@ -84,7 +83,7 @@ const style = {
     margin: 20  
   },
   underScore: {
-      marginTop: 200,
+      marginTop: '10%',
       width: 780,
       textAlign: 'right'
   },
