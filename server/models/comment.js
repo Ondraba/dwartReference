@@ -20,6 +20,15 @@ CommentSchema.statics.addLike = function(id) {
     })
 }
 
-mongoose.model('comment', CommentSchema);
+CommentSchema.statics.updateComment = function(id, by, body){
+  const Comment = mongoose.model('comment');
+  return Comment.findById(id)
+    .then(comment => {
+      comment.by = by;
+      comment.body = body;
+    return comment.save(comment);
+    })
+}
 
+mongoose.model('comment', CommentSchema);
 
