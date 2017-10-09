@@ -14,17 +14,18 @@ import ThumbUp from 'material-ui-icons/ThumbUp';
 import Delete from 'material-ui-icons/Delete';
 import Edit from 'material-ui-icons/Edit';
 
+
 import fetchContentDetail from '../queries/fetchContentDetail';
 
 
-const Comment = (props) => {
-     const t = {
-         state: {isEdit : false},
-         __proto__: React.Component.prototype
-     }
+class Comment extends Component {
+    constructor(props){
+        super(props);
+        this.state = { isEdit : false};
+    }
 
-    function addLikeToComment(id, likes){
-        props.LikeComment({
+    addLikeToComment(id, likes){
+        this.props.LikeComment({
             variables: { id },
              mutation: 'LikeComment',
              optimisticResponse: {
@@ -38,8 +39,8 @@ const Comment = (props) => {
         })
     }
 
-    function deleteComment(id){
-        props.DeleteComment({
+  deleteComment(id){
+        this.props.DeleteComment({
             mutation: 'DeleteComment',
             variables: { id },
             refetchQueries: [{ 
@@ -49,29 +50,57 @@ const Comment = (props) => {
         })
     }
 
-    function onEdit(){
-        t.setState({isEdit : true})
+   onHandleCommentState(commentState){
+       this.setState({isEdit: commentState})
     }
 
 
-    function renderSingleComment({id, by, body, likes}){
-        console.log(t.state.isEdit);
+    renderSingleComment({id, by, body, likes}){
+            const isEdit = this.state.isEdit
+
             return (
               <div>
+                {isEdit ? (
+                <div>
+                    <IconButton touch={true} style={style.delete} onClick={
+                        () => deleteComment(id)
+                    }>
+                    <Delete />
+                    </IconButton>
+
+                    <IconButton touch={true} style={style.edit} onClick={
+                        () => this.onHandleCommentState('true')
+                    }>
+                    <Edit />
+                    </IconButton>
+
+                    <TextField disabled={false} id="text-field-disabled" defaultValue={by}/>
+                    <TextField disabled={false} id="text-field-disabled" defaultValue={body} fullWidth={true}/>
+
+                    <IconButton touch={true} style={style.thumbup} onClick = {
+                    () => addLikeToComment(id, likes)
+                    } >
+                        <ThumbUp />
+                    </IconButton> 
+
+                    <span style={style.thumbupText}>{likes}</span>
+                </div>
+              ) : (
+            <div>
                 <IconButton touch={true} style={style.delete} onClick={
                     () => deleteComment(id)
                 }>
                  <Delete />
                 </IconButton>
                  <IconButton touch={true} style={style.edit} onClick={
-                    () => onEdit()
+                    () => this.onHandleCommentState(false)
                 }>
                  <Edit />
                 </IconButton>
-                <TextField disabled={true} id="text-field-disabled" defaultValue={by}/>
-                <br />
-                <TextField disabled={true} id="text-field-disabled" defaultValue={body} fullWidth={true}/>
-                <br />
+                        <TextField disabled={true} id="text-field-disabled" defaultValue={by}/>
+                        <br />
+                        <TextField disabled={true} id="text-field-disabled" defaultValue={body} fullWidth={true}/>
+                        <br />
                 <div>
                   <IconButton touch={true} style={style.thumbup} onClick = {
                     () => addLikeToComment(id, likes)
@@ -81,20 +110,20 @@ const Comment = (props) => {
                   <span style={style.thumbupText}>{likes}</span>
                </div>
               </div>
+              )}
+            </div>
             );
-    }
-    
-   t.render = () => {
-    return(
-        <div style = { style.wrapperStyle }>
-        <Paper style={ style.paperStyle } zDepth={1} >
-            {renderSingleComment(props.singleComment)}
-        </Paper>
-        </div>
-    )
-  }
+        }
 
-  return t;    
+    render(){
+        return(
+            <div style = { style.wrapperStyle }>
+            <Paper style={ style.paperStyle } zDepth={1} >
+                {this.renderSingleComment(this.props.singleComment)}
+            </Paper>
+            </div>
+        )  
+    }
 }
 
 const style = {
@@ -119,6 +148,10 @@ const style = {
   edit: {
      marginLeft: '90%',
      top: 11
+  },
+  editButton:{
+    marginLeft: '90%',
+    width: 40
   }
 };
 
