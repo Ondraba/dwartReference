@@ -8,14 +8,14 @@ const ContentSchema = new Schema({
   footer: { type: String },
   state: { type: String },
   url: { type: String },
-  groups: {
+  tags: [{
     type: Schema.Types.ObjectId,
-    ref: 'groups'
-  },
-  access: {
+    ref: 'tags'
+  }],
+  access: [{
     type: Schema.Types.ObjectId,
     ref: 'acess'
-  },
+  }],
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'comment'
@@ -32,6 +32,17 @@ ContentSchema.statics.addComment= function(id, by, body) {
       content.comments.push(comment)
       return Promise.all([comment.save(), content.save()])
         .then(([comment, content]) => content);
+    });
+}
+
+ContentSchema.statics.addTag= function(id, systemName, name) {
+  const Tag = mongoose.model('tag');
+  return this.findById(id)
+    .then(content => {
+      const tag = new Tag({ id, systemName, name })
+      content.tags.push(tag)
+      return Promise.all([tag.save(), content.save()])
+        .then(([tag, content]) => content);
     });
 }
 
@@ -55,6 +66,12 @@ ContentSchema.statics.findComments = function(id) {
   return this.findById(id)
     .populate('comments')
     .then(content => content.comments);
+}
+
+ContentSchema.statics.findTags = function(id) {
+  return this.findById(id)
+    .populate('tags')
+    .then(content => content.tags);
 }
 
 ContentSchema.statics.countComments = function(){

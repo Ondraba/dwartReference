@@ -3,6 +3,7 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
 const Content = mongoose.model('content');
 const CommentType = require('./comment_type');
+const TagType = require('./tag_type');
 
 const ContentType = new GraphQLObjectType({
   name:  'ContentType',
@@ -19,6 +20,12 @@ const ContentType = new GraphQLObjectType({
       type: new GraphQLList(CommentType),
       resolve(parentValue) {
         return Content.findComments(parentValue.id);
+      }
+    },
+    tags: {
+      type: new GraphQLList(TagType),
+      resolve(parentValue) {
+        return Content.findTags(parentValue.id);
       }
     },
     likesCount: {

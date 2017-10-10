@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 const mongoose = require('mongoose');
 
 const Song = mongoose.model('song');
@@ -12,6 +12,8 @@ const SongType = require('./song_type');
 
 const ContentType = require('./content_type');
 const CommentType = require('./comment_type');
+const TagType = require('./tag_type');
+
 const LyricType = require('./lyric_type');
 
 const mutation = new GraphQLObjectType({
@@ -25,10 +27,10 @@ const mutation = new GraphQLObjectType({
         header: { type: GraphQLString },
         footer: { type: GraphQLString },
         state: { type: GraphQLString },
-        url: { type: GraphQLString }
+        url: { type: GraphQLString },
       },
-      resolve(parentValue, { title, main, header, footer, state, url }) {
-        return (new Content({ title, main, header, footer, state, url })).save()
+      resolve(parentValue, { title, main, header, footer, state, url}) {
+        return (new Content({ title, main, header, footer, state, url})).save()
       }
     },
      updateContent: {
@@ -55,6 +57,17 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { by, body, contentId }) {
         return Content.addComment(contentId, by, body);
+      }
+    },
+     addTag: {
+      type: ContentType,
+      args: {
+        systemName: { type: GraphQLString },
+        name: { type: GraphQLString },
+        contentId: { type: GraphQLID }
+      },
+      resolve(parentValue, { systemName, name, contentId }) {
+        return Content.addTag(contentId, systemName, name);
       }
     },
     updateComment: {

@@ -8,13 +8,13 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
-
+import TagControl from './TagControl';
 
 class AddContent extends Component {
     constructor(props){
         super(props);
 
-        this.state = { title: '', main: '', header: '', footer: '', state: '', url: ''};
+        this.state = { title: '', main: '', header: '', footer: '', state: '', url: '', hasTags: false };
     }
 
     onSubmit(event){
@@ -83,8 +83,8 @@ class AddContent extends Component {
                     />
                        <br />
                    <RaisedButton label="Create" secondary={true} type="submit"/>
-                    
                 </form>
+                  <TagControl />    
             </div>
          </Paper>
         )
@@ -98,7 +98,7 @@ const style = {
     margin: 20,
   },
     paperStyle: {
-    height: 500,
+    height: 800,
     width: 900,
     margin: 20,
     paddingTop: 20
