@@ -15,21 +15,14 @@ class TagControl extends Component {
     constructor(props){
         super(props);
 
-        this.state = {  systemName: '', activeTag: { systemName: '', name: ''}, tagsToPush: [] };
+        this.state = { activeTag: { systemName: '', name: ''}, tagsToPush: [] };
     }
 
     onSubmit(event){
         event.preventDefault();
         
-        this.props.mutate({
-            variables: {
-                 tags:  this.state.tagsToPush,
-            },
-            refetchQueries: [{ 
-                query: fetchContent
-             }]
-            //destructuring query : query
-        })
+        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]})
+        console.log(this.state.tagsToPushes)
     }
 
     renderTags(){
@@ -41,22 +34,29 @@ class TagControl extends Component {
     }
 
     render(){
+        console.log(this.state);
         return(
          <Paper style={ style.paperStyle } zDepth={1} >
             <div style={style.wrapper}>
+                <br />
                 <div> { this.renderTags() } </div>
+                <br />
                 <h3>Create a Tag</h3>
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <TextField
                         hintText="Identifier"
-                        onChange={event => this.setState({systemName : event.target.value})}
-                        value={this.state.systemName}
+                        onChange={ event => {
+                            this.setState({ activeTag  : Object.assign({}, this.state.activeTag , {systemName: event.target.value})}
+                            )
+                        } 
+                    }
+                        value={ this.state.activeTag.systemName }
                     />
                       <br />
                       <TextField 
                         hintText="Name"
-                        onChange={event => this.setState({activeTag:name = event.target.value})}
-                        value={this.state.activeTag.name}
+                        onChange={event => this.setState({ activeTag  : Object.assign({}, this.state.activeTag , {name: event.target.value})}) }
+                        value={ this.state.activeTag.name }
                     />
                      <br />
                    <RaisedButton label="Add" primary={true} type="submit"/>
@@ -74,7 +74,7 @@ const style = {
     margin: 20,
   },
     paperStyle: {
-    height: 260,
+    height: 300,
     width: 400,
     paddingTop: 20,
     marginTop: 20,

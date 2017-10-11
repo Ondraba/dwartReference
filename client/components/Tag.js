@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const Tag = ({systemName, name}) => {
    return(
-     <div style={ style.box} >{name}</div>
+     <span style={ style.box} >{name}</span>
    )
         
 }
@@ -10,7 +10,12 @@ const Tag = ({systemName, name}) => {
 const style = {
   box: {
     paddingTop: 15,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: 'grey',
+    maxWidth: 60,
+    padding: 5,
+    marginLeft: 5,
+    borderRadius: '15%'
   }
 };
 
