@@ -70,6 +70,15 @@ const mutation = new GraphQLObjectType({
         return Content.addTag(contentId, systemName, name);
       }
     },
+     addTagField: {
+      type: ContentType,
+      args: {
+        tagField:  {type: new GraphQLList(TagType)}
+      },
+      resolve(parentValue, { tagField }) {
+        return Content.addTagField(tagField);
+      }
+    },
     updateComment: {
     type: CommentType,
     args: {
