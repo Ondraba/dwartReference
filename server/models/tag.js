@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const TagSchema = new Schema({
   content: {
     type: Schema.Types.ObjectId,
-    ref: 'content'
+    ref: 'tag'
   },
   systemName: { type: String },
   name: { type: String }

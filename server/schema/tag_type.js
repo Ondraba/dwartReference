@@ -20,7 +20,6 @@ const TagType = new GraphQLObjectType({
       resolve(parentValue) {
         return Tag.findById(parentValue).populate('content')
           .then(tag => {
-            console.log(comment)
             return tag.content
           });
       }

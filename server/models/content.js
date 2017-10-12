@@ -46,11 +46,10 @@ ContentSchema.statics.addTag= function(id, systemName, name) {
     });
 }
 
-ContentSchema.statics.addTagField = function(tagField) {
-  const Tag = mongoose.model('tag');
+ContentSchema.statics.addTagArray = function(tagArray, id) {
   return this.findById(id)
     .then(content => {
-      content.tags.concat(tagField);
+      content.tags.concat(tagArray);
       return content.save(content);
     });
 }

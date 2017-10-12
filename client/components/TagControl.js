@@ -21,8 +21,17 @@ class TagControl extends Component {
     onSubmit(event){
         event.preventDefault();
         
-        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]})
-        console.log(this.state.tagsToPushes)
+        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]});
+        this.tagsProceed("59d679953dc9ac4288cd896a");
+    }
+
+    tagsProceed(contentId){
+        console.log(contentId);
+        this.props.mutate({
+            variables: {
+                tagsArray: this.state.tagsToPush,
+                contentId: contentId
+        }})
     }
 
     renderTags(){
@@ -83,4 +92,16 @@ const style = {
 };
 
 
-export default TagControl;
+const mutation = gql`
+    mutation AddTagArray($tagArray: [TagArray], $contentId: ID){
+        addTagArray(tagArray: $tagArray, contentId: $contentId){
+            id 
+            comments{
+                id
+            }
+        }
+    }
+`;
+
+
+export default graphql(mutation)(TagControl);

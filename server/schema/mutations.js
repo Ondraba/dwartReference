@@ -14,7 +14,10 @@ const ContentType = require('./content_type');
 const CommentType = require('./comment_type');
 const TagType = require('./tag_type');
 
+const TagArrayType = require('../customTypes/tag_array');
+
 const LyricType = require('./lyric_type');
+
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -70,13 +73,14 @@ const mutation = new GraphQLObjectType({
         return Content.addTag(contentId, systemName, name);
       }
     },
-     addTagField: {
+     addTagArray: {
       type: ContentType,
       args: {
-        tagField:  {type: new GraphQLList(TagType)}
+        tagArray: { type: new graphql.GraphQLList(TagArrayType) },
+        contentId: { type: GraphQLID }
       },
-      resolve(parentValue, { tagField }) {
-        return Content.addTagField(tagField);
+      resolve(parentValue, { tagArray, contentId }) {
+        return Content.addTagArray(tagArray, contentId);
       }
     },
     updateComment: {
