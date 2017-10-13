@@ -46,11 +46,16 @@ ContentSchema.statics.addTag= function(id, systemName, name) {
     });
 }
 
-ContentSchema.statics.addTagArray = function(tagArray, id) {
+ContentSchema.statics.addTagArray = function(tagsArray, id) {
+  const Tag = mongoose.model('tag');
   return this.findById(id)
     .then(content => {
-      content.tags.concat(tagArray);
-      return content.save(content);
+      tagsArray.map((prepairedTag) => {
+        const tag = new Tag({ systemName: prepairedTag.systemName, name: prepairedTag.name, content })
+        content.tags.push(tag)
+        return Promise.all([tag.save(), content.save()])
+        .then(([tag, content]) => content);
+      })
     });
 }
 

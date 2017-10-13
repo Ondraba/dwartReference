@@ -76,7 +76,7 @@ const mutation = new GraphQLObjectType({
      addTagArray: {
       type: ContentType,
       args: {
-        tagArray: { type: new graphql.GraphQLList(TagArrayType) },
+        tagArray: { type: (new graphql.GraphQLList(TagArrayType)) },
         contentId: { type: GraphQLID }
       },
       resolve(parentValue, { tagArray, contentId }) {

@@ -21,15 +21,16 @@ class TagControl extends Component {
     onSubmit(event){
         event.preventDefault();
         
-        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]});
-        this.tagsProceed("59d679953dc9ac4288cd896a");
+        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]}, () => {
+             this.tagsProceed("59d679953dc9ac4288cd896a");
+        });
     }
 
     tagsProceed(contentId){
-        console.log(contentId);
+        console.log(this.state.tagsToPush);
         this.props.mutate({
             variables: {
-                tagsArray: this.state.tagsToPush,
+                tagArray: this.state.tagsToPush,
                 contentId: contentId
         }})
     }
@@ -43,7 +44,6 @@ class TagControl extends Component {
     }
 
     render(){
-        console.log(this.state);
         return(
          <Paper style={ style.paperStyle } zDepth={1} >
             <div style={style.wrapper}>
@@ -54,11 +54,7 @@ class TagControl extends Component {
                 <form onSubmit={this.onSubmit.bind(this)}>
                     <TextField
                         hintText="Identifier"
-                        onChange={ event => {
-                            this.setState({ activeTag  : Object.assign({}, this.state.activeTag , {systemName: event.target.value})}
-                            )
-                        } 
-                    }
+                        onChange={ event => { this.setState({ activeTag  : Object.assign({}, this.state.activeTag , {systemName: event.target.value})})} }
                         value={ this.state.activeTag.systemName }
                     />
                       <br />
@@ -93,11 +89,14 @@ const style = {
 
 
 const mutation = gql`
-    mutation AddTagArray($tagArray: [TagArray], $contentId: ID){
+    mutation AddTagArray($tagArray: [TagArrayType], $contentId: ID){
         addTagArray(tagArray: $tagArray, contentId: $contentId){
-            id 
+          id
             comments{
                 id
+                by
+                body
+                likes
             }
         }
     }
@@ -105,3 +104,5 @@ const mutation = gql`
 
 
 export default graphql(mutation)(TagControl);
+
+
