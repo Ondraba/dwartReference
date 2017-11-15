@@ -33,7 +33,12 @@ class AddContent extends Component {
                 query: fetchContent
              }]
             //destructuring query : query
-        }).then(() => hashHistory.push('/Admin')); 
+        }).then(() => hashHistory.push('/Admin'))
+          .then(() => sendIdToTags(refetchQueries.id)); 
+    }
+
+    sendIdToTags(){
+        
     }
 
     render(){

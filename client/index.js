@@ -19,6 +19,7 @@ import ContentDetail from './components/ContentDetail';
 import AddComment from './components/AddComment';
 
 import AdminDriver from './components/AdminDriver';
+import PublicDriver from './components/PublicDriver';
  
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -37,7 +38,8 @@ const Root = () => {
             <IndexRoute component={SongList}/>
             <Route path="content" component={ContentList} />
             <Route path="content/add" component={AddContent} />
-             <Route path="admin" component={AdminDriver} />
+            <Route path="admin" component={AdminDriver} />
+            <Route path="public" component={PublicDriver} />
             <Route path="songs/new" component={SongCreate} />
             <Route path="songs/:id" component={SongDetail} />
             <Route path="contentDetail/:id" component={ContentDetail} />

@@ -13,13 +13,18 @@ const AddComment = (props) => {
         let byInput 
         let bodyInput 
 
+        function clearAll(){
+             console.log(bodyInput);
+            byInput = ''
+            bodyInput = ''
+             console.log(bodyInput);
+        }
+
         function handleSubmit(){
             const commentVariables = {
             by: byInput,
             body: bodyInput
             }
-
-            console.log(commentVariables.by);
 
             props.mutate({
             variables: {
@@ -27,7 +32,7 @@ const AddComment = (props) => {
                 body: commentVariables.body,
                 contentId: props.contentId
                 }
-            });
+            }).then(clearAll());
         }
         
         return(
@@ -39,7 +44,7 @@ const AddComment = (props) => {
                         }
                     } />
                     <br />
-                    <TextField  hintText="Add comment"  fullWidth={true}  onChange={event => 
+                    <TextField  hintText="Add comment"  fullWidth={true}  value={bodyInput} onChange={event => 
                         { bodyInput = event.target.value}
                     } />
                     <br />
