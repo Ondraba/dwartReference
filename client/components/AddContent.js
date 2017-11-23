@@ -14,13 +14,34 @@ class AddContent extends Component {
     constructor(props){
         super(props);
 
-        this.state = { title: '', main: '', header: '', footer: '', state: '', url: '', hasTags: false };
+        this.state = { title: '', main: '', header: '', footer: '', state: '', url: '', hasTags: false, prepairedTags: [] };
+
+        this.getPrepairedTags = this.getPrepairedTags.bind(this);
     }
 
+ 
     onSubmit(event){
         event.preventDefault();
-        
-        this.props.mutate({
+        this.logstate();
+    }
+
+    setPrepairedTags(array){
+        this.setState({prepairedTags: array})
+    }
+
+
+    getPrepairedTags(array){
+        this.setPrepairedTags(array);
+        console.log(array);
+        console.log(this.state);
+    }
+
+    logstate(){
+        console.log(this.state);
+    }
+
+    saveContentThenTags(){
+         this.props.mutate({
             variables: {
                 title:  this.state.title,
                  main:  this.state.main,
@@ -33,12 +54,13 @@ class AddContent extends Component {
                 query: fetchContent
              }]
             //destructuring query : query
-        }).then(() => hashHistory.push('/Admin'))
-          .then(() => sendIdToTags(refetchQueries.id)); 
+        }).then(({data}) =>console.log(data))
+          .then(() => hashHistory.push('/Admin'))
+          .then(() => console.log(this.state))
     }
 
-    sendIdToTags(){
-        
+    saveTags(){
+
     }
 
     render(){
@@ -89,7 +111,7 @@ class AddContent extends Component {
                        <br />
                    <RaisedButton label="Create" secondary={true} type="submit"/>
                 </form>
-                  <TagControl />    
+                  <TagControl getPrepairedTags = { this.getPrepairedTags } />    
             </div>
          </Paper>
         )
@@ -114,7 +136,7 @@ const style = {
 const mutation = gql`
    mutation AddContent($title: String, $main: String, $header: String, $footer: String, $state: String, $url: String){
        addContent(title: $title, main: $main, header: $header, footer: $footer, state: $state, url: $url){
-           title, main, header, footer, state, url 
+           id, title, main, header, footer, state, url 
        }
    }
 `;

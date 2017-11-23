@@ -20,10 +20,8 @@ class TagControl extends Component {
 
     onSubmit(event){
         event.preventDefault();
-        
-        this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]}, () => {
-             this.tagsProceed("59d679953dc9ac4288cd896a");
-        });
+            const response = this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]});
+            () => { this.props.getPrepairedTags(this.state.tagsToPush)};
     }
 
     tagsProceed(contentId){

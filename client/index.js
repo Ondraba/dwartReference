@@ -7,9 +7,6 @@ import { ApolloProvider } from 'react-apollo';
 import { Provider as FelaProvider } from 'react-fela';
 
 import App from './components/App';
-import SongList from './components/SongList';
-import SongCreate from './components/SongCreate';
-import SongDetail from './components/SongDetail';
 
 import ContentList from './components/ContentList';
 import AddContent from './components/AddContent';
@@ -35,13 +32,11 @@ const Root = () => {
       <MuiThemeProvider>
         <Router history={hashHistory}>
           <Route path="/" component={App}>
-            <IndexRoute component={SongList}/>
+            <IndexRoute component={ContentList}/>
             <Route path="content" component={ContentList} />
             <Route path="content/add" component={AddContent} />
             <Route path="admin" component={AdminDriver} />
             <Route path="public" component={PublicDriver} />
-            <Route path="songs/new" component={SongCreate} />
-            <Route path="songs/:id" component={SongDetail} />
             <Route path="contentDetail/:id" component={ContentDetail} />
             <Route path="AddComment" component={AddComment} />
             <Route path="updateContent/:id" component={UpdateContent} />
