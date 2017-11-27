@@ -16,7 +16,7 @@ class AddContent extends Component {
 
         this.state = { title: '', main: '', header: '', footer: '', state: '', url: '', hasTags: false, prepairedTags: [] };
 
-        this.getPrepairedTags = this.getPrepairedTags.bind(this);
+        this.setPrepairedTags = this.setPrepairedTags.bind(this);
     }
 
  
@@ -27,13 +27,6 @@ class AddContent extends Component {
 
     setPrepairedTags(array){
         this.setState({prepairedTags: array})
-    }
-
-
-    getPrepairedTags(array){
-        this.setPrepairedTags(array);
-        console.log(array);
-        console.log(this.state);
     }
 
     logstate(){
@@ -111,7 +104,7 @@ class AddContent extends Component {
                        <br />
                    <RaisedButton label="Create" secondary={true} type="submit"/>
                 </form>
-                  <TagControl getPrepairedTags = { this.getPrepairedTags } />    
+                  <TagControl setPrepairedTags = { this.setPrepairedTags } />    
             </div>
          </Paper>
         )

@@ -19,9 +19,37 @@ class TagControl extends Component {
     }
 
     onSubmit(event){
+        let t = this;
         event.preventDefault();
-            const response = this.setState({tagsToPush: [...this.state.tagsToPush, ...[this.state.activeTag]]});
-            () => { this.props.getPrepairedTags(this.state.tagsToPush)};
+        const prom = () => new Promise(function(resolve, reject) {
+                try {
+                    t.pushActiveTag();
+                }
+                catch (e) {
+                    reject(e)
+                }
+            })
+            .then(t.sendTagsToParent()); 
+        return prom();
+    }
+
+    pushActiveTag(){
+        let t = this;
+        const prom = () => new Promise(function(resolve, reject) {
+            try {
+                t.setState({tagsToPush: [...t.state.tagsToPush, ...[t.state.activeTag]]});
+            }
+            catch (e) {
+                reject(e)
+            }
+        })
+        return prom();
+    }
+
+    sendTagsToParent(){
+        console.log(this.state.activeTag)
+        console.log(this.state.tagsToPush)
+        this.props.setPrepairedTags(this.state.tagsToPush)
     }
 
     tagsProceed(contentId){
