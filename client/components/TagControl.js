@@ -23,13 +23,12 @@ class TagControl extends Component {
         event.preventDefault();
         const prom = () => new Promise(function(resolve, reject) {
                 try {
-                    t.pushActiveTag();
+                   t.pushActiveTag().then(()=>t.sendTagsToParent()); ;
                 }
                 catch (e) {
                     reject(e)
                 }
             })
-            .then(t.sendTagsToParent()); 
         return prom();
     }
 
@@ -37,7 +36,7 @@ class TagControl extends Component {
         let t = this;
         const prom = () => new Promise(function(resolve, reject) {
             try {
-                t.setState({tagsToPush: [...t.state.tagsToPush, ...[t.state.activeTag]]});
+                resolve(t.setState({tagsToPush: [...t.state.tagsToPush, t.state.activeTag]}));
             }
             catch (e) {
                 reject(e)
@@ -47,8 +46,7 @@ class TagControl extends Component {
     }
 
     sendTagsToParent(){
-        console.log(this.state.activeTag)
-        console.log(this.state.tagsToPush)
+        console.log(this.state);
         this.props.setPrepairedTags(this.state.tagsToPush)
     }
 
