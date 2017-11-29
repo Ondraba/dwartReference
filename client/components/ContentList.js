@@ -22,6 +22,8 @@ import Edit from 'material-ui-icons/Edit';
 
 import fetchContent from '../queries/fetchContent';
 
+import Tags from './Tags';
+
 const ContentList = (props) => {
 
      function likeContentById(id, likes){
@@ -48,35 +50,35 @@ const ContentList = (props) => {
    }
 
     function renderContent(){
-        return props.contentData.map(({id, title, main, header, footer, state, url, likes}) => {
+        return props.contentData.map(({id, title, main, header, footer, state, url, likes, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
                     <TableRowColumn>{state}</TableRowColumn>
                     <TableRowColumn>{url}</TableRowColumn>
                     <TableRowColumn>{likes}</TableRowColumn>
-                    <TableRowColumn>0</TableRowColumn>
-                    <TableRowColumn>
+                    <TableRowColumn style = {style.colWidth}>
                         <IconButton touch={true} onClick = {
                             () => likeContentById(id, likes)
                         }>
                             <ThumbUp />
                         </IconButton>
                      </TableRowColumn>
-                     <TableRowColumn>
+                     <TableRowColumn style = {style.colWidth}>
                         <IconButton touch={true} onClick ={
                             () => deleteContentById(id)
                         }>
                             <Delete />
                         </IconButton>
                      </TableRowColumn>
-                     <TableRowColumn>
+                     <TableRowColumn style = {style.colWidth}>
                         <Link to={`/updateContent/${id}`}>
                             <IconButton touch={true}>
                                 <Edit />
                             </IconButton>
                         </Link>
                     </TableRowColumn>
+                    <TableRowColumn><Tags tags={tags}/></TableRowColumn>
                 </TableRow>
             );
         })
@@ -98,10 +100,10 @@ const ContentList = (props) => {
                     <TableHeaderColumn>State</TableHeaderColumn>
                     <TableHeaderColumn>URL</TableHeaderColumn>
                     <TableHeaderColumn>Likes</TableHeaderColumn>
-                    <TableHeaderColumn>Comments</TableHeaderColumn>
-                    <TableHeaderColumn> </TableHeaderColumn>
-                    <TableHeaderColumn> </TableHeaderColumn>
-                    <TableHeaderColumn> </TableHeaderColumn>
+                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                    <TableHeaderColumn> Tags </TableHeaderColumn>
                 </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox= {false}>
@@ -118,14 +120,14 @@ const ContentList = (props) => {
 const style = {
   paperStyle: {
     height: 400,
-    width: 900,
+    width: 1120,
     margin: 20,
     paddingTop: 20
   },
   wrapperStyle: {
     margin: '0 auto'    
   },
-  contentWrapperStyle: {
+  contentWrapperStyle: {    
     paddingRight: 40    
   },
   tableStyle: {
@@ -135,6 +137,9 @@ const style = {
       marginLeft: '92%',
 
   },
+  colWidth: {
+        width: '1rem'
+  }
 };
 
 

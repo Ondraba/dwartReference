@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+  const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ContentSchema = new Schema({
@@ -10,7 +10,7 @@ const ContentSchema = new Schema({
   url: { type: String },
   tags: [{
     type: Schema.Types.ObjectId,
-    ref: 'tags'
+    ref: 'tag'
   }],
   access: [{
     type: Schema.Types.ObjectId,

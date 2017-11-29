@@ -23,7 +23,7 @@ class TagControl extends Component {
         event.preventDefault();
         const prom = () => new Promise(function(resolve, reject) {
                 try {
-                   t.pushActiveTag().then(()=>t.sendTagsToParent()); ;
+                   t.pushActiveTag().then(() => t.sendTagsToParent()); ;
                 }
                 catch (e) {
                     reject(e)

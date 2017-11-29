@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { Link, hashHistory } from 'react-router';
 import fetchContent from '../queries/fetchContent';
 
@@ -17,43 +17,50 @@ class AddContent extends Component {
         this.state = { title: '', main: '', header: '', footer: '', state: '', url: '', hasTags: false, prepairedTags: [] };
 
         this.setPrepairedTags = this.setPrepairedTags.bind(this);
+        this.saveContentThenTags = this.saveContentThenTags.bind(this);
     }
 
  
     onSubmit(event){
         event.preventDefault();
-        this.logstate();
+        this.saveContentThenTags();
     }
 
     setPrepairedTags(array){
         this.setState({prepairedTags: array})
     }
 
-    logstate(){
-        console.log(this.state);
+    tagsProceed(contentId){
+        return this.props.AddTagArray({
+            mutation: 'AddTagArray',
+            variables: {
+                tagArray: this.state.prepairedTags,
+                contentId: contentId
+        },
+        refetchQueries: [{ 
+            query: fetchContent
+            }]
+        })
+    }
+
+    saveContent(){
+        return this.props.AddContent({
+            mutation: 'AddContent',
+            variables: {
+                title:  this.state.title,
+                    main:  this.state.main,
+                header:  this.state.header,
+                footer:  this.state.footer,
+                state:  this.state.state,
+                    url:  this.state.url
+            },
+        })
     }
 
     saveContentThenTags(){
-         this.props.mutate({
-            variables: {
-                title:  this.state.title,
-                 main:  this.state.main,
-               header:  this.state.header,
-               footer:  this.state.footer,
-                state:  this.state.state,
-                  url:  this.state.url
-            },
-            refetchQueries: [{ 
-                query: fetchContent
-             }]
-            //destructuring query : query
-        }).then(({data}) =>console.log(data))
+         this.saveContent()
+          .then(({data}) => this.tagsProceed(data.addContent.id))
           .then(() => hashHistory.push('/Admin'))
-          .then(() => console.log(this.state))
-    }
-
-    saveTags(){
-
     }
 
     render(){
@@ -126,7 +133,7 @@ const style = {
 };
 
 
-const mutation = gql`
+const mutationAddContent = gql`
    mutation AddContent($title: String, $main: String, $header: String, $footer: String, $state: String, $url: String){
        addContent(title: $title, main: $main, header: $header, footer: $footer, state: $state, url: $url){
            id, title, main, header, footer, state, url 
@@ -134,4 +141,22 @@ const mutation = gql`
    }
 `;
 
-export default graphql(mutation)(AddContent);
+const mutationAddTagArray = gql`
+mutation AddTagArray($tagArray: [TagArrayType], $contentId: ID){
+    addTagArray(tagArray: $tagArray, contentId: $contentId){
+      id
+    }
+}
+`;
+
+  const AddContentWithMutations = compose (
+    graphql(mutationAddContent, { 
+        name: 'AddContent' 
+      }),
+    graphql(mutationAddTagArray, {
+         name: 'AddTagArray' 
+      })
+  )(AddContent)
+
+export default AddContentWithMutations
+

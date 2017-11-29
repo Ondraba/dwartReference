@@ -17,6 +17,11 @@ export default gql`
                 body
                 likes
             }
+            tags {
+                id
+                systemName
+                name
+            }
         }
     }
 `;

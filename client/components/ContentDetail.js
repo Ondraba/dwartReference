@@ -13,6 +13,7 @@ import ThumbUp from 'material-ui-icons/ThumbUp';
 
 import AddComment from './AddComment';
 import CommentList from './CommentList';
+import Tags from './Tags';
 
 
 const ContentDetail = (props) => {
@@ -42,6 +43,7 @@ const ContentDetail = (props) => {
             <RaisedButton label="Back" primary={true} type="submit"/>
          </Link>
         <Paper style={ style.paperStyle } zDepth={1} >
+            <Tags tags = {_contentDetail.tags} />
             <h1> {_contentDetail.title} </h1>
             <div>
                 <p>{_contentDetail.title} </p>

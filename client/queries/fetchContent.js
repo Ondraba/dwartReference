@@ -10,6 +10,11 @@ export default gql`
         footer
         state
         url
+        tags{
+            id
+            systemName
+            name
+        }
     }
 }
 `;
