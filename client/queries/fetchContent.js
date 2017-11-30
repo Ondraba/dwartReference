@@ -10,6 +10,7 @@ export default gql`
         footer
         state
         url
+        likes
         tags{
             id
             systemName

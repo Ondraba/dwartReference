@@ -23,6 +23,7 @@ import Edit from 'material-ui-icons/Edit';
 import fetchContent from '../queries/fetchContent';
 
 import Tags from './Tags';
+import Select from './Select';
 
 const ContentList = (props) => {
 
@@ -47,6 +48,10 @@ const ContentList = (props) => {
                 query: fetchContent
              }]
        })
+   }
+
+   function fillSelect(){
+       <Select dataList = {props.contentData} />
    }
 
     function renderContent(){
@@ -86,6 +91,7 @@ const ContentList = (props) => {
 
    return(
      <div style = { style.wrapperStyle }>
+        <Select dataList={props.contentData} />
        <Paper style={ style.paperStyle } zDepth={1} >
         <div style= { style.contentWrapperStyle }>
         <Link to="/content/add" style={style.linkStyle}>

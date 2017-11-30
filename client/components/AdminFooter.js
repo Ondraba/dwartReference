@@ -19,7 +19,7 @@ const style = {
     textAlign: 'center'
   },
   paperStyle:{
-   width: 900,
+   width: 1120,
    height: 50,
    marginLeft: 20
   }
