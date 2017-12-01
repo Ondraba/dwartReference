@@ -23,7 +23,7 @@ import Edit from 'material-ui-icons/Edit';
 import fetchContent from '../queries/fetchContent';
 
 import Tags from './Tags';
-import Select from './Select';
+import FilterHolder from './FilterHolder';
 
 const ContentList = (props) => {
 
@@ -54,8 +54,15 @@ const ContentList = (props) => {
        <Select dataList = {props.contentData} />
    }
 
+   function filterContent(state){
+      const filteredContentData = props.contentData.filter((obj) =>{
+          return obj.state == state
+      })
+      return filteredContentData;
+   }
+
     function renderContent(){
-        return props.contentData.map(({id, title, main, header, footer, state, url, likes, tags}) => {
+        return filterContent('Published').map(({id, title, main, header, footer, state, url, likes, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
@@ -91,7 +98,7 @@ const ContentList = (props) => {
 
    return(
      <div style = { style.wrapperStyle }>
-        <Select dataList={props.contentData} />
+       <FilterHolder dataList = { props.contentData } />
        <Paper style={ style.paperStyle } zDepth={1} >
         <div style= { style.contentWrapperStyle }>
         <Link to="/content/add" style={style.linkStyle}>

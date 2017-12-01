@@ -14,10 +14,8 @@ const AddComment = (props) => {
         let bodyInput 
 
         function clearAll(){
-             console.log(bodyInput);
             byInput = ''
             bodyInput = ''
-             console.log(bodyInput);
         }
 
         function handleSubmit(){
@@ -48,7 +46,7 @@ const AddComment = (props) => {
                         { bodyInput = event.target.value}
                     } />
                     <br />
-                    <RaisedButton label="Komentovat" secondary={true} onClick={handleSubmit.bind(this)}/> 
+                    <RaisedButton label="Send" secondary={true} onClick={handleSubmit.bind(this)}/> 
                 </div>
             </Paper>
         )
