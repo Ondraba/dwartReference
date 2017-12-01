@@ -50,10 +50,6 @@ const ContentList = (props) => {
        })
    }
 
-   function fillSelect(){
-       <Select dataList = {props.contentData} />
-   }
-
    function filterContent(state){
       const filteredContentData = props.contentData.filter((obj) =>{
           return obj.state == state
@@ -98,7 +94,7 @@ const ContentList = (props) => {
 
    return(
      <div style = { style.wrapperStyle }>
-       <FilterHolder dataList = { props.contentData } />
+       <FilterHolder contentData = { props.contentData } />
        <Paper style={ style.paperStyle } zDepth={1} >
         <div style= { style.contentWrapperStyle }>
         <Link to="/content/add" style={style.linkStyle}>

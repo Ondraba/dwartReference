@@ -15,10 +15,13 @@ class FilterHolder extends Component {
      constructor(props){
         super(props);
         this.state = { filterKeysAndValuePairs: []};
+
+        this.addNewFilterPair = this.addNewFilterPair.bind(this);
     }
 
     addNewFilterPair(newKeyValuePair){
         this.setState({filterKeysAndValuePairs: [...this.state.filterKeysAndValuePairs, ...[newKeyValuePair]]})
+
         console.log(this.state.filterKeysAndValuePairs);
     }
 
@@ -33,7 +36,7 @@ class FilterHolder extends Component {
     render(){
         return(
             <div>
-                 <Select dataList={this.props.dataList} label='State' keyPropertyName='state' />
+                 <Select contentData={this.props.contentData} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
             </div>
         )
     }

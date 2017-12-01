@@ -20,6 +20,7 @@ class Select extends Component {
 
     handleChange(event, index, value){
          this.setState({selectValue: value})
+         this.props.addNewFilterPair(this.sendKeyValuePairToFilterHolder(value))
          console.log(this.sendKeyValuePairToFilterHolder(value))
     } 
 
@@ -46,7 +47,7 @@ class Select extends Component {
                 floatingLabelText={this.props.label}
                 value={this.state.selectValue}
                 onChange={this.handleChange}   >
-                {this.fillMenuItems(this.props.dataList)}
+                {this.fillMenuItems(this.props.contentData)}
                 </SelectField>
                 </div>
             </Paper>
