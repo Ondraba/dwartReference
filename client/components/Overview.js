@@ -24,11 +24,19 @@ const Overview = ({contentData}) => {
         return R.length(contentData)
     }
 
+    function likeCount(){
+        console.log(contentData);
+        const likes = contentData.reduce((a,b) => {
+            return a.likes + b.likes
+        });
+        return likes;
+    }
+
 
     return(
      <Paper style={ style.paperStyle} zDepth={1} >
         <div style= {style.wrapperStyle}>
-        Items in database: {contentCount()} | Last update: 00:00 | Activity overview: 0
+        Items in database: {contentCount()} | Last update: 00:00 | Activity overview: 0 | Likes: {likeCount()}
         </div>
      </Paper>
     )
