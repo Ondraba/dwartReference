@@ -15,14 +15,23 @@ class FilterHolder extends Component {
      constructor(props){
         super(props);
         this.state = { filterKeysAndValuePairs: []};
-
         this.addNewFilterPair = this.addNewFilterPair.bind(this);
     }
 
-    addNewFilterPair(newKeyValuePair){
-        this.setState({filterKeysAndValuePairs: [...this.state.filterKeysAndValuePairs, ...[newKeyValuePair]]})
 
-        console.log(this.state.filterKeysAndValuePairs);
+    addNewFilterPair(newKeyValuePair){
+        let t = this;
+        const prom = () => new Promise(function(resolve, reject) {
+            try {
+                resolve(t.setState({filterKeysAndValuePairs: [...t.state.filterKeysAndValuePairs, ...newKeyValuePair]}));
+            }
+            catch (e) {
+                reject(e)
+            }
+        })
+        return prom()
+        .then(() => console.log(t.state.filterKeysAndValuePairs)
+        );
     }
 
     filterProceed(){

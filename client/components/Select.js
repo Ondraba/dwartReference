@@ -21,7 +21,6 @@ class Select extends Component {
     handleChange(event, index, value){
          this.setState({selectValue: value})
          this.props.addNewFilterPair(this.sendKeyValuePairToFilterHolder(value))
-         console.log(this.sendKeyValuePairToFilterHolder(value))
     } 
 
     sendKeyValuePairToFilterHolder(val){
