@@ -25,10 +25,8 @@ const Overview = ({contentData}) => {
     }
 
     function likeCount(){
-        console.log(contentData);
-        const likes = contentData.reduce((a,b) => {
-            return a.likes + b.likes
-        });
+        const reducer = (prev, next) => prev + next.likes;
+        const likes = contentData.reduce(reducer,0);
         return likes;
     }
 
@@ -46,6 +44,8 @@ const Overview = ({contentData}) => {
 const style = {
   wrapperStyle: {
     paddingLeft: 20
+
+
   },
   paperStyle:{
     width: 1120,
