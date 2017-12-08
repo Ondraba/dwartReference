@@ -30,17 +30,20 @@ class FilterHolder extends Component {
             }
         })
         return prom()
-        .then(() => t.checkAndSeFilterKeyAndValuePairs(newKeyValuePair)
+        .then(() => t.checkAndSetFilterKeyAndValuePairs(newKeyValuePair)
         );
     }
 
-    checkAndSeFilterKeyAndValuePairs(newKeyValuePair){
+
+    checkAndSetFilterKeyAndValuePairs(newKeyValuePair){
         let t = this;
-        const currentPairs = t.state.filterKeysAndValuePairs;
-        const keys = currentPairs[0][0];
-         console.log(currentPairs);
-        console.log(keys);
+        const arr = t.state.filterKeysAndValuePairs;
+        const reduced = arr.reduce((prev, next) => {
+            return  (prev[0].includes(next[0]) ? arr.splice(arr.indexOf(next)): arr)
+        }) 
+        console.log(reduced);
     }
+    
 
     filterProceed(){
 
