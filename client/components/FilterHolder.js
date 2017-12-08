@@ -30,18 +30,31 @@ class FilterHolder extends Component {
             }
         })
         return prom()
-        .then(() => t.checkAndSetFilterKeyAndValuePairs(newKeyValuePair)
+        .then(() => console.log(t.state.filterKeysAndValuePairs)
         );
     }
 
 
-    checkAndSetFilterKeyAndValuePairs(newKeyValuePair){
+    reduceFilterAndValuePairs(newKeyValuePair){
         let t = this;
         const arr = t.state.filterKeysAndValuePairs;
         const reduced = arr.reduce((prev, next) => {
             return  (prev[0].includes(next[0]) ? arr.splice(arr.indexOf(next)): arr)
         }) 
-        console.log(reduced);
+    }
+
+    getStates(){
+        const states = this.props.contentData.map((item) =>{
+            return item.state
+        })
+        return states;
+    }
+
+    getTitles(){
+        const titles = this.props.contentData.map((item) =>{
+            return item.title
+        })
+        return titles;
     }
     
 
@@ -56,7 +69,8 @@ class FilterHolder extends Component {
     render(){
         return(
             <div>
-                 <Select contentData={this.props.contentData} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
+                 <Select contentData={this.getStates()} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
+                 <Select contentData={this.getTitles()} label='Title' keyPropertyName='title' addNewFilterPair={this.addNewFilterPair} />
             </div>
         )
     }

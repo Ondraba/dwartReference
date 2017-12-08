@@ -31,25 +31,23 @@ class Select extends Component {
     }
         
     fillMenuItems(items){
-         return items.map(({id, state}) => {
+         return items.map((item) => {
             return(
-             <MenuItem value={state} primaryText={state} key={id}/>
+             <MenuItem value={item} primaryText={item} key={item}/>
             )
         })
     }
 
     render(){
         return(
-            <Paper style={ style.paperStyle} zDepth={1} >
                 <div style= {style.wrapperStyle}>
-                <SelectField
-                floatingLabelText={this.props.label}
-                value={this.state.selectValue}
-                onChange={this.handleChange}   >
-                {this.fillMenuItems(this.props.contentData)}
-                </SelectField>
+                    <SelectField
+                        floatingLabelText={this.props.label}
+                        value={this.state.selectValue}
+                        onChange={this.handleChange}   >
+                        {this.fillMenuItems(this.props.contentData)}
+                    </SelectField>
                 </div>
-            </Paper>
             )
     }
 }
