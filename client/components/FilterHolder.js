@@ -30,7 +30,7 @@ class FilterHolder extends Component {
             }
         })
         return prom()
-        .then(() => console.log(t.state.filterKeysAndValuePairs)
+        .then(() => t.reduceFilterAndValuePairs(newKeyValuePair)
         );
     }
 
@@ -38,9 +38,20 @@ class FilterHolder extends Component {
     reduceFilterAndValuePairs(newKeyValuePair){
         let t = this;
         const arr = t.state.filterKeysAndValuePairs;
-        const reduced = arr.reduce((prev, next) => {
-            return  (prev[0].includes(next[0]) ? arr.splice(arr.indexOf(next)): arr)
+        const reduced = () => arr.reduce((prev, next) => {
+            return  (next[0].includes(prev[0]) ? arr.splice(arr.indexOf(prev),1): arr)
         }) 
+        const prom = () => new Promise(function(resolve, reject) {
+            try {
+                resolve(reduced());
+            }
+            catch (e) {
+                reject(e)
+            }
+        })
+        return prom()
+        .then(() => console.log(t.state.filterKeysAndValuePairs)
+        );
     }
 
     getStates(){
