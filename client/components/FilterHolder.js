@@ -23,34 +23,19 @@ class FilterHolder extends Component {
         let t = this;
         const prom = () => new Promise(function(resolve, reject) {
             try {
-                resolve(t.setState({filterKeysAndValuePairs: [...t.state.filterKeysAndValuePairs, ...newKeyValuePair]}));
+                const arr = t.state.filterKeysAndValuePairs;
+                const filtered = arr.filter((item) =>{
+                    return item[0][0] !== newKeyValuePair[0][0]
+                })
+                const extendedArr = [...filtered, newKeyValuePair];
+                resolve(t.setState({filterKeysAndValuePairs: extendedArr}));
             }
             catch (e) {
                 reject(e)
             }
         })
         return prom()
-        .then(() => t.reduceFilterAndValuePairs(newKeyValuePair)
-        );
-    }
-
-
-    reduceFilterAndValuePairs(newKeyValuePair){
-        let t = this;
-        const arr = t.state.filterKeysAndValuePairs;
-        const reduced = () => arr.reduce((prev, next) => {
-            return  (next[0].includes(prev[0]) ? arr.splice(arr.indexOf(prev),1): arr)
-        }) 
-        const prom = () => new Promise(function(resolve, reject) {
-            try {
-                resolve(reduced());
-            }
-            catch (e) {
-                reject(e)
-            }
-        })
-        return prom()
-        .then(() => console.log(t.state.filterKeysAndValuePairs)
+        .then(() => t.props.getFilterPairs(t.state.filterKeysAndValuePairs)
         );
     }
 

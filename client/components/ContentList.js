@@ -25,10 +25,15 @@ import fetchContent from '../queries/fetchContent';
 import Tags from './Tags';
 import FilterHolder from './FilterHolder';
 
-const ContentList = (props) => {
 
-     function likeContentById(id, likes){
-       props.LikeContent({
+class ContentList extends Component {
+    constructor(props){
+        super(props)
+        this.getFilterPairs = this.getFilterPairs.bind(this);
+    }
+
+    likeContentById(id, likes){
+       this.props.LikeContent({
              variables: { id },
              optimisticResponse: {
                 __typename: 'Mutation',
@@ -41,8 +46,8 @@ const ContentList = (props) => {
        })
    }
 
-   function deleteContentById(id){
-       props.DeleteContent({
+  deleteContentById(id){
+       this.props.DeleteContent({
            variables: {id},
             refetchQueries: [{ 
                 query: fetchContent
@@ -50,15 +55,44 @@ const ContentList = (props) => {
        })
    }
 
-   function filterContent(state){
-      const filteredContentData = props.contentData.filter((obj) =>{
-          return obj.state == state
-      })
-      return filteredContentData;
+  getFilterPairs(filteredPairs){
+        let t = this;
+        let final = [...this.props.contentData]
+        const prom = () => new Promise(function(resolve, reject) {
+            try {
+                const filtered = () => {
+                    let iterate = () => {
+                        filteredPairs.forEach((item, i) => {
+                            let filterName  = item[0][0]
+                            let filterValue = item[0][1]
+                            final.forEach((c_item, x) =>{
+                                let originalPropertyValue = final[x][item[0][0]]
+                                    if(originalPropertyValue !== filterValue){
+                                        final.splice(x,1)
+                                    }
+                            })
+                        })
+                        return final
+                    }
+                    return iterate()
+                  }
+                resolve(filtered());
+            }
+            catch (e) {
+                reject(e)
+            }
+        })
+        return prom()
+        .then(() => console.log(final)
+        );
    }
 
-    function renderContent(){
-        return filterContent('Published').map(({id, title, main, header, footer, state, url, likes, tags}) => {
+   getFilteredContent(filteredData){
+      return this.props.contentData
+   }
+
+   renderContent(){
+        return this.getFilteredContent([]).map(({id, title, main, header, footer, state, url, likes, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
@@ -67,14 +101,14 @@ const ContentList = (props) => {
                     <TableRowColumn>{likes}</TableRowColumn>
                     <TableRowColumn style = {style.colWidth}>
                         <IconButton touch={true} onClick = {
-                            () => likeContentById(id, likes)
+                            () => this.likeContentById(id, likes)
                         }>
                             <ThumbUp />
                         </IconButton>
                      </TableRowColumn>
                      <TableRowColumn style = {style.colWidth}>
                         <IconButton touch={true} onClick ={
-                            () => deleteContentById(id)
+                            () => this.deleteContentById(id)
                         }>
                             <Delete />
                         </IconButton>
@@ -92,38 +126,40 @@ const ContentList = (props) => {
         })
     }
 
-   return(
-     <div style = { style.wrapperStyle }>
-       <FilterHolder contentData = { props.contentData } />
-       <Paper style={ style.paperStyle } zDepth={1} >
-        <div style= { style.contentWrapperStyle }>
-        <Link to="/content/add" style={style.linkStyle}>
-            <FloatingActionButton secondary={true}>
-             <ContentAdd />
-            </FloatingActionButton>
-        </Link>    
-          <Table style={style.tableStyle}>
-            <TableHeader adjustForCheckbox= {false} displaySelectAll = {false}>
-                <TableRow>
-                    <TableHeaderColumn>Title</TableHeaderColumn>
-                    <TableHeaderColumn>State</TableHeaderColumn>
-                    <TableHeaderColumn>URL</TableHeaderColumn>
-                    <TableHeaderColumn>Likes</TableHeaderColumn>
-                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
-                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
-                    <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
-                    <TableHeaderColumn> Tags </TableHeaderColumn>
-                </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox= {false}>
-             {renderContent()}
-            </TableBody>
-         </Table>
+   render(){
+        return(
+        <div style = { style.wrapperStyle }>
+        <FilterHolder contentData = { this.props.contentData } getFilterPairs = { this.getFilterPairs } />
+        <Paper style={ style.paperStyle } zDepth={1} >
+            <div style= { style.contentWrapperStyle }>
+            <Link to="/content/add" style={style.linkStyle}>
+                <FloatingActionButton secondary={true}>
+                <ContentAdd />
+                </FloatingActionButton>
+            </Link>    
+            <Table style={style.tableStyle}>
+                <TableHeader adjustForCheckbox= {false} displaySelectAll = {false}>
+                    <TableRow>
+                        <TableHeaderColumn>Title</TableHeaderColumn>
+                        <TableHeaderColumn>State</TableHeaderColumn>
+                        <TableHeaderColumn>URL</TableHeaderColumn>
+                        <TableHeaderColumn>Likes</TableHeaderColumn>
+                        <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                        <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                        <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
+                        <TableHeaderColumn> Tags </TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox= {false}>
+                {this.renderContent()}
+                </TableBody>
+            </Table>
+            </div>
+        </Paper>
         </div>
-       </Paper>
-     </div>
-   )
-        
+    ) 
+   }
+  
 }
 
 const style = {
