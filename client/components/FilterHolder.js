@@ -47,15 +47,6 @@ class FilterHolder extends Component {
         return singleRow
     }
     
-
-    filterProceed(){
-
-    }
-
-    resetAll(){
-
-    }
-    
     render(){
         return(
             <div>
