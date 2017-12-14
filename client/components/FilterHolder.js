@@ -39,18 +39,12 @@ class FilterHolder extends Component {
         );
     }
 
-    getStates(){
-        const states = this.props.contentData.map((item) =>{
-            return item.state
-        })
-        return states;
-    }
 
-    getTitles(){
-        const titles = this.props.contentData.map((item) =>{
-            return item.title
+    getSingleContentDataRow(row){
+        const singleRow = this.props.contentData.map((item) => {
+            return item[row]
         })
-        return titles;
+        return singleRow
     }
     
 
@@ -65,8 +59,9 @@ class FilterHolder extends Component {
     render(){
         return(
             <div>
-                 <Select contentData={this.getStates()} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
-                 <Select contentData={this.getTitles()} label='Title' keyPropertyName='title' addNewFilterPair={this.addNewFilterPair} />
+                 <Select contentData={this.getSingleContentDataRow('state')} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
+                 <Select contentData={this.getSingleContentDataRow('title')} label='Title' keyPropertyName='title' addNewFilterPair={this.addNewFilterPair} />
+                 <Select contentData={this.getSingleContentDataRow('footer')} label='Footer' keyPropertyName='footer' addNewFilterPair={this.addNewFilterPair} />
             </div>
         )
     }

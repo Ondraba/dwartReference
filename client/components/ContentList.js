@@ -30,6 +30,7 @@ class ContentList extends Component {
     constructor(props){
         super(props)
         this.getFilterPairs = this.getFilterPairs.bind(this);
+        this.state = { filteredData : [...this.props.contentData] }
     }
 
     likeContentById(id, likes){
@@ -57,19 +58,20 @@ class ContentList extends Component {
 
   getFilterPairs(filteredPairs){
         let t = this;
-        let final = [...this.props.contentData]
+        const final = [...this.props.contentData]
+
         const prom = () => new Promise(function(resolve, reject) {
             try {
                 const filtered = () => {
                     let iterate = () => {
-                        filteredPairs.forEach((item, i) => {
+                        return filteredPairs.forEach((item, i) => {
                             let filterName  = item[0][0]
                             let filterValue = item[0][1]
-                            final.forEach((c_item, x) =>{
-                                let originalPropertyValue = final[x][item[0][0]]
-                                    if(originalPropertyValue !== filterValue){
-                                        final.splice(x,1)
-                                    }
+                            return final.slice().reverse().forEach((c_item, x, arr) =>{
+                                const originalPropertyValue = c_item[filterName]
+                                if(originalPropertyValue !== filterValue){
+                                 final.splice(arr.length - 1 - x, 1)
+                                }
                             })
                         })
                         return final
@@ -83,16 +85,12 @@ class ContentList extends Component {
             }
         })
         return prom()
-        .then(() => console.log(final)
+        .then(() => t.setState({filteredData : final})
         );
    }
 
-   getFilteredContent(filteredData){
-      return this.props.contentData
-   }
-
    renderContent(){
-        return this.getFilteredContent([]).map(({id, title, main, header, footer, state, url, likes, tags}) => {
+        return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
