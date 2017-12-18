@@ -6,6 +6,7 @@ const Song = mongoose.model('song');
 
 const Content= mongoose.model('content');
 const Comment= mongoose.model('comment');
+const Tag = mongoose.model('tag');
 
 const Lyric = mongoose.model('lyric');
 const SongType = require('./song_type');
@@ -121,6 +122,14 @@ const mutation = new GraphQLObjectType({
         resolve(parentValue, { id }){
           return Comment.remove({_id: id})
         }
+    },
+    deleteTag: {
+      type: TagType,
+      args: { id: { type: GraphQLID } },
+        resolve(parentValue, { id }){
+          return Tag.remove({_id: id})
+        }
+
     },
     deleteSong: {
       type: SongType,

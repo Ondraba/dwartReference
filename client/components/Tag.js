@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import fetchContent from '../queries/fetchContent';
 
-const Tag = ({systemName, name}) => {
+const Tag = (props) => {
+  function handleClick(e){
+    e.preventDefault()
+    deleteTag(props.id)
+  }
+
+function deleteTag(id){
+      props.mutate({
+          variables: {id},
+           refetchQueries: [{ 
+                query: fetchContent
+             }]
+      })
+  }
+
+
    return(
-     <span style={ style.box} >{name}</span>
+     <span style={ style.box } onClick={handleClick}>{props.name}</span>
    )
         
 }
@@ -19,4 +37,13 @@ const style = {
   }
 };
 
-export default Tag
+const mutation = gql`
+    mutation DeleteTag($id: ID){
+        deleteTag(id: $id){
+            id
+        }
+    }
+`;
+
+
+export default graphql(mutation)(Tag);

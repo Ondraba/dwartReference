@@ -21,14 +21,14 @@ const Tags = ({tags}) => {
     function renderTags(){
         return tags.map(({id, systemName, name}) => {
             return (
-                <Tag systemName={systemName} name={name} key={id} />
+                <Tag systemName={systemName} name={name} id = {id} key={id} />
             );
         })
     }
 
    return(
      <div>
-        {renderTags()}
+        {renderTags()}  
      </div>
    )
         
