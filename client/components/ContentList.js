@@ -33,6 +33,12 @@ class ContentList extends Component {
         this.state = { filteredData : [...this.props.contentData] }
     }
 
+    componentWillReceiveProps(changedProps) {
+        this.setState({
+            filteredData : [...changedProps.contentData]
+        })
+    }   
+
     likeContentById(id, likes){
        this.props.LikeContent({
              variables: { id },
@@ -46,6 +52,8 @@ class ContentList extends Component {
             }
        })
    }
+
+   
 
   deleteContentById(id){
        this.props.DeleteContent({
@@ -90,6 +98,7 @@ class ContentList extends Component {
    }
 
    renderContent(){
+       console.log(this.props)
         return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>

@@ -17,11 +17,15 @@ import Edit from 'material-ui-icons/Edit';
 import Tag from './Tag';
 
 const Tags = ({tags}) => {
+    function randomize(){
+        let no = Math.random(0,9999)
+        return no
+    }
 
     function renderTags(){
         return tags.map(({id, systemName, name}) => {
             return (
-                <Tag systemName={systemName} name={name} id = {id} key={id} />
+                <Tag systemName={systemName} name={name} id = {id} key={"tags" + id} />
             );
         })
     }
