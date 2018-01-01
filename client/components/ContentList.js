@@ -24,7 +24,7 @@ import fetchContent from '../queries/fetchContent';
 
 import Tags from './Tags';
 import FilterHolder from './FilterHolder';
-import SearchBox from './SearchBox';
+
 
 
 class ContentList extends Component {
@@ -137,7 +137,6 @@ class ContentList extends Component {
    render(){
         return(
         <div style = { style.wrapperStyle }>
-        <SearchBox contentData = { this.props.contentData } />
         <FilterHolder contentData = { this.props.contentData } getFilterPairs = { this.getFilterPairs } />
         <Paper style={ style.paperStyle } zDepth={1} >
             <div style= { style.contentWrapperStyle }>

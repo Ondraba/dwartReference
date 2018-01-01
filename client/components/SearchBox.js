@@ -6,6 +6,22 @@ class SearchBox extends React.Component {
     constructor (props) {
       super(props)
       this.state = { value: ''}
+      this.keyPropertyName = this.props.keyPropertyName;
+
+      this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(value){
+      console.log(value)
+      this.setState({value: value})
+      this.props.addNewFilterPair(this.sendKeyValuePairToFilterHolder(value))
+    } 
+
+    sendKeyValuePairToFilterHolder(val){
+      const keyPropertyName = this.keyPropertyName;
+      const keyPropertyValue = val;
+      const newPair = [];
+      return [...newPair, [keyPropertyName, keyPropertyValue]]
     }
 
    render(){
@@ -26,7 +42,7 @@ class SearchBox extends React.Component {
           }
           value={this.state.value}
           onChange={e => this.setState({ value: e.target.value })}
-          onSelect={value => this.setState({ value })}
+          onSelect={value => this.handleChange(value)}
         />
       </div>
      )

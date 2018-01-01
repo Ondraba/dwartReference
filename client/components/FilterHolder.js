@@ -9,6 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import Select from './Select';
+import SearchBox from './SearchBox';
 
 
 class FilterHolder extends Component {
@@ -50,8 +51,8 @@ class FilterHolder extends Component {
     render(){
         return(
             <div>
+                 <SearchBox contentData = { this.props.contentData }  keyPropertyName='title' addNewFilterPair={this.addNewFilterPair} />
                  <Select contentData={this.getSingleContentDataRow('state')} label='State' keyPropertyName='state' addNewFilterPair={this.addNewFilterPair} />
-                 <Select contentData={this.getSingleContentDataRow('title')} label='Title' keyPropertyName='title' addNewFilterPair={this.addNewFilterPair} />
                  <Select contentData={this.getSingleContentDataRow('footer')} label='Footer' keyPropertyName='footer' addNewFilterPair={this.addNewFilterPair} />
             </div>
         )
