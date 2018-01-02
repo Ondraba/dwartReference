@@ -78,8 +78,11 @@ class ContentList extends Component {
                             let filterValue = item[0][1]
                             return final.slice().reverse().forEach((c_item, x, arr) =>{
                                 const originalPropertyValue = c_item[filterName]
-                                if(originalPropertyValue !== filterValue){
-                                 final.splice(arr.length - 1 - x, 1)
+                                switch(originalPropertyValue !== filterValue){
+                                    case true:
+                                        final.splice(arr.length - 1 - x, 1)
+                                        break
+                                    default : break    
                                 }
                             })
                         })
