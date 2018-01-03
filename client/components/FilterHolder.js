@@ -25,7 +25,7 @@ class FilterHolder extends Component {
         const prom = () => new Promise(function(resolve, reject) {
             const arr = t.state.filterKeysAndValuePairs;
             try {
-                switch(newKeyValuePair[0][1] !== null || ''){
+                switch(newKeyValuePair[0][1] !== null){
                     case true:
                         const filtered = arr.filter((item) =>{
                             return item[0][0] !== newKeyValuePair[0][0] 
