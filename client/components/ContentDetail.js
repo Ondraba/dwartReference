@@ -19,13 +19,10 @@ class ContentDetail extends Component {
         this.state = { contentDetail: ''};
     }
     
-     componentDidUpdate(previousProps, previousState) {
-         console.log(this.props.data)
-        if(previousProps.data !== this.props.data) {
-           this.setState({contentDetail: this.props.data.contentDetail})  
-           this.componentView(this.props.data.contentDetail.id, this.props.data.contentDetail.views)      
-        }
-     } 
+    componentWillReceiveProps(nextProps) {
+        this.setState({contentDetail: nextProps.data.contentDetail}) 
+            .then(this.componentView(nextProps.data.contentDetail.id, nextProps.data.contentDetail.views))   
+    } 
 
    likeContentById(id, likes){
        this.props.LikeContent({

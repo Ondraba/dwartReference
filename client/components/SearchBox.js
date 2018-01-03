@@ -17,7 +17,7 @@ class SearchBox extends React.Component {
     } 
 
     sendKeyValuePairToFilterHolder(val){
-      let checkedVal = val == '' || val.length < 3 ? null : val
+      let checkedVal = val == '' || val.length < 2 ? null : val
       const keyPropertyName = this.keyPropertyName;
       const keyPropertyValue = checkedVal;
       const newPair = [];
