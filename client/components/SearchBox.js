@@ -12,14 +12,14 @@ class SearchBox extends React.Component {
     }
 
     handleChange(value){
-      console.log(value)
       this.setState({value: value})
       this.props.addNewFilterPair(this.sendKeyValuePairToFilterHolder(value))
     } 
 
     sendKeyValuePairToFilterHolder(val){
+      let checkedVal = val == '' || val.length < 3 ? null : val
       const keyPropertyName = this.keyPropertyName;
-      const keyPropertyValue = val;
+      const keyPropertyValue = checkedVal;
       const newPair = [];
       return [...newPair, [keyPropertyName, keyPropertyValue]]
     }
@@ -41,7 +41,7 @@ class SearchBox extends React.Component {
             </div>
           }
           value={this.state.value}
-          onChange={e => this.setState({ value: e.target.value })}
+          onChange={e => this.handleChange(e.target.value)}
           onSelect={value => this.handleChange(value)}
         />
       </div>

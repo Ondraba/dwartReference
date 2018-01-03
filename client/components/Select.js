@@ -45,6 +45,7 @@ class Select extends Component {
                         floatingLabelText={this.props.label}
                         value={this.state.selectValue}
                         onChange={this.handleChange}   >
+                         <MenuItem value={null} primaryText="" />
                         {this.fillMenuItems(this.props.contentData)}
                     </SelectField>
                 </div>

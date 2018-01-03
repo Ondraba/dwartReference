@@ -23,13 +23,23 @@ class FilterHolder extends Component {
     addNewFilterPair(newKeyValuePair){
         let t = this;
         const prom = () => new Promise(function(resolve, reject) {
+            const arr = t.state.filterKeysAndValuePairs;
             try {
-                const arr = t.state.filterKeysAndValuePairs;
-                const filtered = arr.filter((item) =>{
-                    return item[0][0] !== newKeyValuePair[0][0]
-                })
-                const extendedArr = [...filtered, newKeyValuePair];
-                resolve(t.setState({filterKeysAndValuePairs: extendedArr}));
+                switch(newKeyValuePair[0][1] !== null || ''){
+                    case true:
+                        const filtered = arr.filter((item) =>{
+                            return item[0][0] !== newKeyValuePair[0][0] 
+                        })
+                        const extendedArr = [...filtered, newKeyValuePair];
+                        resolve(t.setState({filterKeysAndValuePairs: extendedArr}));
+                        break
+                    default:
+                        const filteredWithNull = arr.filter((item) =>{
+                            return item[0][0] !== newKeyValuePair[0][0] 
+                        })
+                        resolve(t.setState({filterKeysAndValuePairs: filteredWithNull}));
+                        break    
+                }
             }
             catch (e) {
                 reject(e)
