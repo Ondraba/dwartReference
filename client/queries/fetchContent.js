@@ -11,6 +11,7 @@ export default gql`
         state
         url
         likes
+        views
         tags{
             id
             systemName

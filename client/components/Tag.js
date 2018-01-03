@@ -33,8 +33,11 @@ const style = {
     maxWidth: 60,
     padding: 5,
     marginLeft: 5,
-    borderRadius: '2%'
-  }
+    borderRadius: '2%',
+    '&:hover': {
+      backgroundColor: '#90A4AE'
+    },
+  },
 };
 
 const mutation = gql`

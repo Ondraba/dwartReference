@@ -16,6 +16,7 @@ const ContentType = new GraphQLObjectType({
     state: { type: GraphQLString },
     url: { type: GraphQLString },
     likes: { type: GraphQLInt },
+    views: { type: GraphQLInt},
     comments: {
       type: new GraphQLList(CommentType),
       resolve(parentValue) {

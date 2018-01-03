@@ -54,7 +54,6 @@ class ContentList extends Component {
        })
    }
 
-   
 
   deleteContentById(id){
        this.props.DeleteContent({
@@ -103,13 +102,14 @@ class ContentList extends Component {
 
    renderContent(){
        console.log(this.props)
-        return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, tags}) => {
+        return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, views, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>
                     <TableRowColumn>{state}</TableRowColumn>
                     <TableRowColumn>{url}</TableRowColumn>
                     <TableRowColumn>{likes}</TableRowColumn>
+                    <TableRowColumn>{views}</TableRowColumn>
                     <TableRowColumn style = {style.colWidth}>
                         <IconButton touch={true} onClick = {
                             () => this.likeContentById(id, likes)
@@ -155,6 +155,7 @@ class ContentList extends Component {
                         <TableHeaderColumn>State</TableHeaderColumn>
                         <TableHeaderColumn>URL</TableHeaderColumn>
                         <TableHeaderColumn>Likes</TableHeaderColumn>
+                         <TableHeaderColumn>Views</TableHeaderColumn>
                         <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
                         <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>
                         <TableHeaderColumn style = {style.colWidth}> </TableHeaderColumn>

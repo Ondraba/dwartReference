@@ -9,47 +9,46 @@ import Paper from 'material-ui/Paper';
 
 
 
-const AddComment = (props) => {
-        let byInput 
-        let bodyInput 
+ class AddComment extends Component {
+    constructor(props){
+        super(props);
+        this.state = { byInput : '', bodyInput: ''}
+    }
 
-        function clearAll(){
-            byInput = ''
-            bodyInput = ''
-        }
+    clearAll(){
+        this.setState({byInput: '', bodyInput: ''})
+    }
 
-        function handleSubmit(){
-            const commentVariables = {
-            by: byInput,
-            body: bodyInput
+    handleSubmit(){
+        this.props.mutate({
+        variables: {
+            by: this.state.byInput,
+            body: this.state.bodyInput,
+            contentId: this.props.contentId
             }
-
-            props.mutate({
-            variables: {
-                by: commentVariables.by,
-                body: commentVariables.body,
-                contentId: props.contentId
-                }
-            }).then(clearAll());
-        }
-        
+        }).then(this.clearAll());
+    }
+    
+    render(){
         return(
             <Paper style={ style.paperStyle} zDepth={1} >
                 <div style={style.wrapperStyle}>
                     <h3>Add comment:</h3>
-                    <TextField  hintText="Your nickname"   onChange={event =>{
-                        byInput = event.target.value
+                    <TextField  hintText="Your nickname"  value = {this.state.byInput} onChange={event =>{
+                        this.setState({byInput: event.target.value })
                         }
                     } />
                     <br />
-                    <TextField  hintText="Add comment"  fullWidth={true}  value={bodyInput} onChange={event => 
-                        { bodyInput = event.target.value}
+                    <TextField  hintText="Add comment"  fullWidth={true}  value={this.state.bodyInput} onChange={event => { 
+                        this.setState({bodyInput: event.target.value})
+                        }
                     } />
                     <br />
-                    <RaisedButton label="Send" secondary={true} onClick={handleSubmit.bind(this)}/> 
+                    <RaisedButton label="Send" secondary={true} onClick={this.handleSubmit.bind(this)}/> 
                 </div>
             </Paper>
         )
+    }
 }
 
 const style = {

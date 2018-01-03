@@ -109,6 +109,13 @@ const mutation = new GraphQLObjectType({
           return Content.addLike(id);
         }
     },
+    addView: {
+    type: ContentType,
+    args: { id: { type: GraphQLID } },
+      resolve(parentValue, { id }){
+        return Content.addView(id);
+      }
+     },
     deleteContent: {
       type: ContentType,
       args: { id : { type: GraphQLID} },

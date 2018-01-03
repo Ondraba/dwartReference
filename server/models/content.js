@@ -20,7 +20,8 @@ const ContentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'comment'
   }],
-  likes: { type: Number, default: 0 }
+  likes: { type: Number, default: 0 },
+  views: { type: Number, default: 0 }
 });
 
 
@@ -97,6 +98,15 @@ ContentSchema.statics.addLike = function(id){
   return Content.findById(id)
     .then(content => {
       ++content.likes;
+      return content.save();
+    })
+}
+
+ContentSchema.statics.addView= function(id){
+  const Content = mongoose.model('content');
+  return Content.findById(id)
+    .then(content => {
+      ++content.views;
       return content.save();
     })
 }

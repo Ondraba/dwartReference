@@ -9,21 +9,29 @@ import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import ThumbUp from 'material-ui-icons/ThumbUp';
 
-
-
 import AddComment from './AddComment';
 import CommentList from './CommentList';
 import Tags from './Tags';
 
+class ContentDetail extends Component {
+     constructor(props){
+        super(props);
+        this.state = { contentDetail: ''};
+    }
+    
+     componentDidUpdate(previousProps, previousState) {
+         console.log(this.props.data)
+        if(previousProps.data !== this.props.data) {
+           this.setState({contentDetail: this.props.data.contentDetail})  
+           this.componentView(this.props.data.contentDetail.id, this.props.data.contentDetail.views)      
+        }
+     } 
 
-const ContentDetail = (props) => {
-   const  _contentDetail  = props.data.contentDetail;
-
-   function likeContentById(id, likes){
-       props.mutate({
+   likeContentById(id, likes){
+       this.props.LikeContent({
              variables: { id },
              optimisticResponse: {
-                __typename: 'Mutation',
+                __typename: 'likeContent',
                 likeContent: {
                     id: id,
                     __typename: 'ContentType',
@@ -33,41 +41,59 @@ const ContentDetail = (props) => {
        })
    }
 
-    if (!_contentDetail){
+   componentView(id, views){
+       this.props.AddView({
+             variables: { id },
+             optimisticResponse: {
+                __typename: 'addView',
+                addView: {
+                    id: id,
+                    __typename: 'ContentType',
+                    views: views++
+                }
+            }
+       })
+   }
+    
+   render(){
+    if (!this.state.contentDetail){
             return <div>Loading...</div>;
     }
-
-   return(
-     <div style={style.wrapperStyle}>
-         <Link to="/Admin" style={style.linkStyle}>
-            <RaisedButton label="Back" primary={true} type="submit"/>
-         </Link>
-        <Paper style={ style.paperStyle } zDepth={1} >
-            <Tags tags = {_contentDetail.tags} />
-            <h1> {_contentDetail.title} </h1>
-            <div>
-                <p>{_contentDetail.title} </p>
-                <p>{_contentDetail.main}</p>
-                <p> {_contentDetail.header}</p>
-                <p> {_contentDetail.footer}</p>
-                <p> {_contentDetail.state}</p> 
-                <p> {_contentDetail.ur}</p> 
-            </div>
-            <div style={style.underScore}>
-                <span style={style.likeLabel}>{_contentDetail.likes}</span>
-                <IconButton touch={true} style={style.likeButton} onClick = {
-                    () => likeContentById(_contentDetail.id, _contentDetail.likes)
-                }>
-                    <ThumbUp />
-                </IconButton>
-            </div>
-        </Paper>
-        <CommentList commentsObj={_contentDetail.comments} detailId = {_contentDetail.id}/>
-        <AddComment contentId={_contentDetail.id}/>
-     </div>
-   )
-        
+    return(
+        <div style={style.wrapperStyle}>
+            <Link to="/Admin" style={style.linkStyle}>
+                <RaisedButton label="Back" primary={true} type="submit"/>
+            </Link>
+            <Paper style={ style.
+            
+            paperStyle } zDepth={1} >
+                <Tags tags = {this.state.contentDetail.tags} />
+                <h1> {this.state.contentDetail.title} </h1>
+                <p>{this.state.contentDetail.views}</p>
+                <div>
+                    <p>{this.state.contentDetail.title} </p>
+                    <p>{this.state.contentDetail.main}</p>
+                    <p> {this.state.contentDetail.header}</p>
+                    <p> {this.state.contentDetail.footer}</p>
+                    <p> {this.state.contentDetail.state}</p> 
+                    <p> {this.state.contentDetail.ur}</p> 
+                </div>
+                <div style={style.underScore}>
+                    <span style={style.likeLabel}>{this.state.contentDetail.likes}</span>
+                    <IconButton touch={true} style={style.likeButton} onClick = {
+                        () => this.likeContentById(this.state.contentDetail.id, this.state.contentDetail.likes)
+                    }>
+                        <ThumbUp />
+                    </IconButton>
+                </div>
+            </Paper>
+            <CommentList commentsObj={this.state.contentDetail.comments} detailId = {this.state.contentDetail.id}/>
+            <AddComment contentId={this.state.contentDetail.id}/>
+        </div>
+     )
+   }
 }
+        
 
 
 const style = {
@@ -98,7 +124,7 @@ const style = {
 };
 
 
-const mutation = gql`
+const mutationLikeContent = gql`
     mutation LikeContent($id: ID){
         likeContent(id: $id){
             id
@@ -107,6 +133,14 @@ const mutation = gql`
     }
 `;
 
+const mutationAddView = gql`
+    mutation AddView($id: ID){
+        addView(id: $id){
+            id
+            views
+        }
+    }
+`;
 
 
 export default compose(
@@ -117,6 +151,11 @@ export default compose(
             }
         }
     }),
-    graphql(mutation),
+    graphql(mutationLikeContent, { 
+      name: 'LikeContent' 
+    }),
+    graphql(mutationAddView, {
+       name: 'AddView' 
+    })
 )(ContentDetail)
 
