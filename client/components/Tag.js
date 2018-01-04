@@ -1,7 +1,10 @@
+
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import fetchContent from '../queries/fetchContent';
+
+
 
 const Tag = (props) => {
   function handleClick(e){
