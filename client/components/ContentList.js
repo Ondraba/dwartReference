@@ -103,7 +103,6 @@ class ContentList extends Component {
    }
 
    renderContent(){
-       console.log(this.props)
         return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, views, tags}) => {
             return (
                 <TableRow key={id} selectable={false}>

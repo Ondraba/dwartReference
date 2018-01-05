@@ -65,7 +65,7 @@ class AddContent extends Component {
 
     render(){
         return(
-         <Paper style={ style.paperStyle } zDepth={1} >
+         <Paper style={ style.paperStyle } zDepth={1} id="detailPaper">
             <div style={style.wrapper}>
                 <Link to="/Admin" style={style.linkStyle}>
                  <RaisedButton label="Back" primary={true} type="submit"/>
@@ -109,7 +109,7 @@ class AddContent extends Component {
                         value={this.state.url}
                     />
                        <br />
-                   <RaisedButton label="Create" secondary={true} type="submit"/>
+                   <RaisedButton label="Create" secondary={true} type="submit" className="addNewcontent" />
                 </form>
                   <TagControl setPrepairedTags = { this.setPrepairedTags } />    
             </div>
