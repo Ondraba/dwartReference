@@ -9,8 +9,6 @@
   },
   "scripts": {
     "dev": "nodemon index.js --ignore client",
-    "build": "flow-remove-types src/ -d lib/",
-    "prepublish": "npm run build",
     "flow": "flow"
   },
   "author": "",

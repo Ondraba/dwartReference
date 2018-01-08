@@ -30,13 +30,8 @@ test('New content saved and redirect', async t => {
          
     await t
         .expect(page.addWrapper.id).notEql('detailPaper')
-        .expect(page.items.count).eql(waitForRender() + 1) 
+        .expect(page.items.count).eql((contentItemsCount) + 1)
 });
 
 
 
-
-async function waitForRender(x) {
-    const contentItemsCount = await page.items.count;
-    return contentItemsCount;
-}.then()
