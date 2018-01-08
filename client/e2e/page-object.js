@@ -6,6 +6,7 @@ export default class ContentTest {
         this.filterItems = ReactSelector('FilterHolder div Select')
         this.addButton = ReactSelector('Paper div RaisedButton')
         this.addWrapper = ReactSelector('Paper')
-        this.submitContent = ReactSelector('AddContent').find('.addNewContent');;
+        this.submitContent = ReactSelector('AddContent').find('.addNewContent')
+        this.addNewContent = ReactSelector('ContentList').find('.addNewContent')
     }
 }

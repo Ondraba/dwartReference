@@ -144,7 +144,7 @@ class ContentList extends Component {
         <FilterHolder contentData = { this.props.contentData } getFilterPairs = { this.getFilterPairs } />
         <Paper style={ style.paperStyle } zDepth={1} >
             <div style= { style.contentWrapperStyle }>
-            <Link to="/content/add" style={style.linkStyle}>
+            <Link to="/content/add" style={style.linkStyle} className="addNewContent">
                 <FloatingActionButton secondary={true}>
                 <ContentAdd />
                 </FloatingActionButton>
