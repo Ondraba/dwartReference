@@ -25,7 +25,7 @@ const Tags = ({tags}) => {
     function renderTags(){
         return tags.map(({id, systemName, name}) => {
             return (
-                <Tag systemName={systemName} name={name} id = {id} key={"tags" + id} />
+                <Tag systemName={systemName} name={name}  key={name+systemName} />
             );
         })
     }
