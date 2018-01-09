@@ -21,7 +21,6 @@ class ContentDetail extends Component {
     
     componentWillReceiveProps(nextProps) {
         this.setState({contentDetail: nextProps.data.contentDetail}) 
-            .then(this.componentView(nextProps.data.contentDetail.id, nextProps.data.contentDetail.views))   
     } 
 
    likeContentById(id, likes){

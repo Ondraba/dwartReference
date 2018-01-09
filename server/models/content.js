@@ -54,9 +54,9 @@ ContentSchema.statics.addTagArray = function(tagsArray, id) {
       tagsArray.map((prepairedTag) => {
         const tag = new Tag({ systemName: prepairedTag.systemName, name: prepairedTag.name, content })
         content.tags.push(tag)
-        return Promise.all([tag.save(), content.save()])
-        .then(([tag, content]) => content);
+        tag.save()
       })
+      return content.save(content);
     });
 }
 

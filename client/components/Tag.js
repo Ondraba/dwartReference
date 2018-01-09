@@ -10,9 +10,11 @@ const Tag = (props) => {
   function handleClick(e){
     e.preventDefault()
     deleteTag(props.id)
+    console.log(props)
   }
 
 function deleteTag(id){
+  console.log(id)
       props.mutate({
           variables: {id},
            refetchQueries: [{ 
