@@ -6,7 +6,7 @@ const AdminFooter = () => {
    return(
      <Paper style={ style.paperStyle} zDepth={1} >
       <div style={style.wrapperStyle}>
-          <span>DwarfQL 2017 (c)</span>
+          <span>OBA(c) 2017</span>
       </div>
      </Paper>
    )
