@@ -2,14 +2,10 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 const mongoose = require('mongoose');
 
-const Song = mongoose.model('song');
 
 const Content= mongoose.model('content');
 const Comment= mongoose.model('comment');
 const Tag = mongoose.model('tag');
-
-const Lyric = mongoose.model('lyric');
-const SongType = require('./song_type');
 
 const ContentType = require('./content_type');
 const CommentType = require('./comment_type');
@@ -17,7 +13,7 @@ const TagType = require('./tag_type');
 
 const TagArrayType = require('../customTypes/tag_array');
 
-const LyricType = require('./lyric_type');
+
 
 
 const mutation = new GraphQLObjectType({
@@ -137,13 +133,6 @@ const mutation = new GraphQLObjectType({
           return Tag.remove({_id: id})
         }
 
-    },
-    deleteSong: {
-      type: SongType,
-      args: { id: { type: GraphQLID } },
-      resolve(parentValue, { id }) {
-        return Song.remove({ _id: id });
-      }
     }
   }
 });

@@ -104,6 +104,7 @@ class ContentList extends Component {
 
    renderContent(){
         return this.state.filteredData.map(({id, title, main, header, footer, state, url, likes, views, tags}) => {
+            console.log(title)
             return (
                 <TableRow key={id} selectable={false}>
                     <TableRowColumn><Link to={`/contentDetail/${id}`}>{title}</Link></TableRowColumn>

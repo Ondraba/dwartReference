@@ -16,23 +16,24 @@ import Edit from 'material-ui-icons/Edit';
 
 import Tag from './Tag';
 
-const Tags = ({tags}) => {
+const Tags = (props) => {
+
     function randomize(){
         let no = Math.random(0,9999)
         return no
     }
 
     function renderTags(){
-        return tags.map(({id, systemName, name}) => {
+        return props.tags.map(({id, systemName, name}, index) => {
             return (
-                <Tag systemName={systemName} name={name}  key={name+systemName} />
+                <Tag systemName={systemName} name={name}  key={index + 1} />
             );
         })
     }
-
+    
    return(
      <div>
-        {renderTags()}  
+      { props.tags ? renderTags() : <span></span> }
      </div>
    )
         
