@@ -23,7 +23,7 @@ class AddContent extends Component {
  
     onSubmit(event){
         event.preventDefault();
-        this.saveContentThenTags();
+        this.saveContentThenTags();  
     }
 
     setPrepairedTags(array){

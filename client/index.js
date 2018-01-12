@@ -17,9 +17,10 @@ import AddComment from './components/AddComment';
 
 import AdminDriver from './components/AdminDriver';
 import PublicDriver from './components/PublicDriver';
- 
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Edee from './components/Edee';
 
 
 const client = new ApolloClient({
@@ -40,6 +41,7 @@ const Root = () => {
             <Route path="contentDetail/:id" component={ContentDetail} />
             <Route path="AddComment" component={AddComment} />
             <Route path="updateContent/:id" component={UpdateContent} />
+            <Route path="edee" component={Edee} />
           </Route>
         </Router>
       </MuiThemeProvider>

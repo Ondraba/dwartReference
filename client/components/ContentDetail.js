@@ -60,9 +60,7 @@ class ContentDetail extends Component {
             <Link to="/Admin" style={style.linkStyle}>
                 <RaisedButton label="Back" primary={true} type="submit"/>
             </Link>
-            <Paper style={ style.
-            
-            paperStyle } zDepth={1} >
+            <Paper style={ style.paperStyle } zDepth={1} >
                 <Tags tags = {this.state.contentDetail.tags} />
                 <h1> {this.state.contentDetail.title} </h1>
                 <p>{this.state.contentDetail.views}</p>
