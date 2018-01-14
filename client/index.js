@@ -6,6 +6,8 @@ import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { Provider as FelaProvider } from 'react-fela';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 import App from './components/App';
 
 import ContentList from './components/ContentList';
@@ -21,6 +23,7 @@ import PublicDriver from './components/PublicDriver';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Edee from './components/Edee';
+import IndexPage from './components/indexPage';
 
 
 const client = new ApolloClient({
@@ -42,6 +45,7 @@ const Root = () => {
             <Route path="AddComment" component={AddComment} />
             <Route path="updateContent/:id" component={UpdateContent} />
             <Route path="edee" component={Edee} />
+            <Route path="index" component={IndexPage} />
           </Route>
         </Router>
       </MuiThemeProvider>
