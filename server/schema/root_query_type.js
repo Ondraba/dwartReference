@@ -45,13 +45,13 @@ const RootQuery = new GraphQLObjectType({
         return Tag.findById(id);
       }
     },
-    edee: {
-      type: EdeeType,
-      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
-      resolve() {
-        return Edee.gqlEdeeDb()
-      }
-    }
+    // edee: {
+    //   type: EdeeType,
+    //   args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+    //   resolve() {
+    //     return Edee.gqlEdeeDb()
+    //   }
+    // }
   })
 });
 
